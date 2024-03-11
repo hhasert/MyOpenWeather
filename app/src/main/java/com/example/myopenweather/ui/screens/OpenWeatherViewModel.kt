@@ -30,15 +30,15 @@ sealed interface GeoLocationByCoordsUiState {
     object Error : GeoLocationByCoordsUiState
     object Loading : GeoLocationByCoordsUiState
 }
-sealed interface OpenWeatherUiState {
-    data class Success(val openWeather: OpenWeatherCurrent) : OpenWeatherUiState
-    object Error : OpenWeatherUiState
-    object Loading : OpenWeatherUiState
+sealed interface OpenWeatherCurrentUiState {
+    data class Success(val openWeatherCurrent: OpenWeatherCurrent) : OpenWeatherCurrentUiState
+    object Error : OpenWeatherCurrentUiState
+    object Loading : OpenWeatherCurrentUiState
 }
 
 class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var openWeatherUiState: OpenWeatherUiState by mutableStateOf(OpenWeatherUiState.Loading)
+    var openWeatherCurrentUiState: OpenWeatherCurrentUiState by mutableStateOf(OpenWeatherCurrentUiState.Loading)
         private set
     var geoLocationUiState: GeoLocationUiState by mutableStateOf(GeoLocationUiState.Loading)
         private set
@@ -55,10 +55,6 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         getGeoLocation (cityName)
     }
 
-    /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [MutableList].
-     */
     fun getGeoLocation( name : String) {
         viewModelScope.launch {
             geoLocationUiState = GeoLocationUiState.Loading
@@ -83,15 +79,15 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             }
         }
     }
-    fun getOpenWeather( latitude : String, longitude:String) {
+    fun getOpenWeatherCurrent( latitude : String, longitude:String) {
         viewModelScope.launch {
-            openWeatherUiState = OpenWeatherUiState.Loading
-            openWeatherUiState = try {
-                OpenWeatherUiState.Success(openWeatherRepository.getOpenWeather(latitude,longitude,apiKey))
+            openWeatherCurrentUiState = OpenWeatherCurrentUiState.Loading
+            openWeatherCurrentUiState = try {
+                OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(latitude,longitude,apiKey))
             } catch (e: IOException) {
-                OpenWeatherUiState.Error
+                OpenWeatherCurrentUiState.Error
             } catch (e: HttpException) {
-                OpenWeatherUiState.Error
+                OpenWeatherCurrentUiState.Error
             }
         }
     }

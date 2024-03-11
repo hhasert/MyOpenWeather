@@ -2,14 +2,14 @@ package com.example.myopenweather.data
 
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
-import com.example.myopenweather.network.OpenWeatherCurrentApiService
+import com.example.myopenweather.network.OpenWeatherApiService
 
 /**
  * Repository that fetch mars photos list from marsApi.
  */
 interface OpenWeatherRepository {
     /** Fetches Weather data */
-    suspend fun getOpenWeather(
+    suspend fun getOpenWeatherCurrent(
         latitude: String,
         longitude: String,
         apiKey: String ): OpenWeatherCurrent
@@ -26,14 +26,14 @@ interface OpenWeatherRepository {
  * Network Implementation of Repository that fetch weather.
  */
 class NetworkOpenWeatherRepository(
-    private val openWeatherApiService: OpenWeatherCurrentApiService
+    private val openWeatherApiService: OpenWeatherApiService
 ) : OpenWeatherRepository {
     /** Fetches Weather data from openWeatherApi*/
-    override suspend fun getOpenWeather(
+    override suspend fun getOpenWeatherCurrent(
         latitude:String,
         longitude:String,
         apiKey: String
-    ): OpenWeatherCurrent = openWeatherApiService.getOpenWeather( latitude, longitude, apiKey )
+    ): OpenWeatherCurrent = openWeatherApiService.getOpenWeatherCurrent( latitude, longitude, apiKey )
     override suspend fun getGeoLocation(
         cityName : String,
         apiKey : String
