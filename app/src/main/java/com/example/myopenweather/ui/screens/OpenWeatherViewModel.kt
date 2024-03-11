@@ -47,7 +47,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
 // Go to https://openweathermap.org/api , create an account and get an API Key
     private val apiKey = "get one from openweather"
     /**
-     * Call getMarsPhotos() on init so we can display status immediately.
+     * Call getGeoLocation() on init so we can display status immediately.
      */
     init {
         val cityName = "New York"
