@@ -12,6 +12,8 @@ interface OpenWeatherRepository {
     suspend fun getOpenWeatherCurrent(
         latitude: String,
         longitude: String,
+        units : String,
+        language : String,
         apiKey: String ): OpenWeatherCurrent
     suspend fun getGeoLocation(
         cityName: String,
@@ -32,8 +34,10 @@ class NetworkOpenWeatherRepository(
     override suspend fun getOpenWeatherCurrent(
         latitude:String,
         longitude:String,
+        units : String,
+        language: String,
         apiKey: String
-    ): OpenWeatherCurrent = openWeatherApiService.getOpenWeatherCurrent( latitude, longitude, apiKey )
+    ): OpenWeatherCurrent = openWeatherApiService.getOpenWeatherCurrent( latitude, longitude, units, language, apiKey )
     override suspend fun getGeoLocation(
         cityName : String,
         apiKey : String

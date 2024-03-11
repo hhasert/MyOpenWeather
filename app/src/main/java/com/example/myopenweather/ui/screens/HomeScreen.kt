@@ -4,44 +4,43 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myopenweather.R
 import com.example.myopenweather.model.GeoLocation
+import com.example.myopenweather.model.OpenWeatherCurrent
 
 @Composable
 fun HomeScreen(
     geoLocationUiState: GeoLocationUiState,
+    openWeatherCurrentUiState: OpenWeatherCurrentUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    when (geoLocationUiState) {
+/*  when (geoLocationUiState) {
         is GeoLocationUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is GeoLocationUiState.Success -> PhotosGridScreen(
+        is GeoLocationUiState.Success -> PhotosGridScreen2(
             geoLocationUiState.geolocations, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
         )
         is GeoLocationUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
+    } */
+    when (openWeatherCurrentUiState) {
+        is OpenWeatherCurrentUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+        is OpenWeatherCurrentUiState.Success -> PhotosGridScreen(
+            openWeatherCurrentUiState.openWeatherCurrent, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
+        )
+        is OpenWeatherCurrentUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
 
@@ -79,6 +78,26 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 
 @Composable
 fun PhotosGridScreen(
+    openWeatherCurrent: OpenWeatherCurrent,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(5.dp),
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text ("Location : " + openWeatherCurrent.locationName)
+        Text ("latitude : " + openWeatherCurrent.coordinates.latitude)
+        Text ("longitude : " + openWeatherCurrent.coordinates.longitude)
+        Text ("Wind Speed : " + openWeatherCurrent.wind.speed.toString() + " m/s")
+        Text ("Wind Angle : " + openWeatherCurrent.wind.deg.toString() + " deg")
+        Text ("Weather : " + openWeatherCurrent.weather[0].main)
+        Text ("Weather : " + openWeatherCurrent.weather[0].description)
+    }
+}
+@Composable
+fun PhotosGridScreen2(
     geolocations: List<GeoLocation>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
@@ -90,7 +109,7 @@ fun PhotosGridScreen(
     ) {
         val lat = geolocations[0].latitude.toString()
         val lon = geolocations[0].longitude.toString()
-        val enName = geolocations[0].localNames.get("ar").toString()
+        val enName = geolocations[0].localNames.get("en").toString()
         Text (geolocations[0].name)
         Text ("Latitude  " + lat)
         Text ("Longiitude  " + lon)

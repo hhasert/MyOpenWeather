@@ -1,5 +1,6 @@
 package com.example.myopenweather.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+private const val TAG = "MyOpenWeather"
 /**
  * UI state for the Home screen
  */
@@ -51,18 +53,28 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      * Call getGeoLocation() on init so we can display status immediately.
      */
     init {
-        val cityName = "New York"
+        val cityName = "Den Haag"
+        val lat  = "52.069526"
+        val lon = "4.406018"
+        val units = "metric"
+        val language = "en"
         getGeoLocation (cityName)
-    }
+        getOpenWeatherCurrent(lat, lon, units, language)
+         }
 
     fun getGeoLocation( name : String) {
         viewModelScope.launch {
             geoLocationUiState = GeoLocationUiState.Loading
             geoLocationUiState = try {
-                GeoLocationUiState.Success(openWeatherRepository.getGeoLocation(name, apiKey))
+                GeoLocationUiState.Success(openWeatherRepository.getGeoLocation(
+                    name,
+                    apiKey
+                    )
+                )
             } catch (e: IOException) {
                 GeoLocationUiState.Error
             } catch (e: HttpException) {
+                Log.e(TAG, "ERROR: HttpException : " + e.message())
                 GeoLocationUiState.Error
             }
         }
@@ -71,22 +83,36 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         viewModelScope.launch {
             geoLocationByCoordsUiState = GeoLocationByCoordsUiState.Loading
             geoLocationByCoordsUiState = try {
-                GeoLocationByCoordsUiState.Success(openWeatherRepository.getGeoLocationByCoords(latitude, longitude, apiKey))
+                GeoLocationByCoordsUiState.Success(openWeatherRepository.getGeoLocationByCoords(
+                    latitude,
+                    longitude,
+                    apiKey
+                    )
+                )
             } catch (e: IOException) {
                 GeoLocationByCoordsUiState.Error
             } catch (e: HttpException) {
+                Log.e(TAG, "ERROR: HttpException : " + e.message())
                 GeoLocationByCoordsUiState.Error
             }
         }
     }
-    fun getOpenWeatherCurrent( latitude : String, longitude:String) {
+    fun getOpenWeatherCurrent( latitude : String, longitude:String, units : String, language : String) {
         viewModelScope.launch {
             openWeatherCurrentUiState = OpenWeatherCurrentUiState.Loading
             openWeatherCurrentUiState = try {
-                OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(latitude,longitude,apiKey))
+                OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(
+                    latitude,
+                    longitude,
+                    units,
+                    language,
+                    apiKey
+                    )
+                )
             } catch (e: IOException) {
                 OpenWeatherCurrentUiState.Error
             } catch (e: HttpException) {
+                Log.e(TAG, "ERROR: HttpException : " + e.message())
                 OpenWeatherCurrentUiState.Error
             }
         }

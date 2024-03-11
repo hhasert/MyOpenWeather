@@ -3,20 +3,16 @@ package com.example.myopenweather.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
-import org.json.JSONObject
-import java.text.DecimalFormat
 
 @Serializable
 data class OpenWeatherCurrent(
-    @SerialName(value = "lat")
-    val latitude : Double,
-    @SerialName(value = "lon")
-    val longitude : Double,
-    val timezone :  String,
-    @SerialName(value = "timezone_offset")
-    val timezoneOffset : String,
-    // TODO : Check if current is properly serializable
-    val current:JsonObject
+   @SerialName(value = "coord")
+    val coordinates : Coordinates,
+   @SerialName(value = "wind")
+   val wind  : Wind,
+   @SerialName(value = "name")
+    val locationName : String,
+    val weather : List <Weather>,
 )
 
 @Serializable
@@ -32,4 +28,25 @@ data class GeoLocation(
     val longitude : Double,
     val country : String,
     val state : String
+)
+
+@Serializable
+data class Coordinates(
+    @SerialName(value = "lon")
+    val longitude : Double,
+    @SerialName(value = "lat")
+    val latitude : Double
+)
+@Serializable
+data class Wind(
+    val speed: Double,
+    val deg: Integer,
+    val gust: Double? = null
+)
+@Serializable
+data class Weather (
+    val id : Integer,
+    val main : String,
+    val description : String,
+    val icon : String
 )

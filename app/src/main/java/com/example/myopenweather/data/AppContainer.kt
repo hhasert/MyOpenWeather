@@ -37,7 +37,7 @@ class DefaultAppContainer : AppContainer {
     }
 
     /**
-     * DI implementation for Mars photos repository
+     * DI implementation repository
      */
     override val openWeatherRepository: OpenWeatherRepository by lazy {
         NetworkOpenWeatherRepository(retrofitService)

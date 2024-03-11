@@ -2,6 +2,7 @@ package com.example.myopenweather.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -9,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -33,8 +33,9 @@ fun OpenWeatherApp() {
                 viewModel(factory = OpenWeatherViewModel.Factory)
             HomeScreen(
                geoLocationUiState = openWeatherViewModel.geoLocationUiState,
-                retryAction = { (openWeatherViewModel::getGeoLocation)("Den Haag") },
-                contentPadding = it
+               openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
+               retryAction = { (openWeatherViewModel::getOpenWeatherCurrent)("52.069526", "4.406018",  "metric", "en")},
+               contentPadding = it
             )
         }
     }
