@@ -117,7 +117,7 @@ fun PhotosGridScreen2(
     }
 }
 /**
- * The home screen displaying photo grid.
+ * The home screen displaying Weather inFo
 
 @Composable
 fun PhotosGridScreen(

@@ -5,7 +5,7 @@ import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.network.OpenWeatherApiService
 
 /**
- * Repository that fetch mars photos list from marsApi.
+ * Repository that fetch location and weather info from OpenWeather.
  */
 interface OpenWeatherRepository {
     /** Fetches Weather data */
