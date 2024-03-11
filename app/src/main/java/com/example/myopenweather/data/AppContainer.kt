@@ -1,10 +1,10 @@
 package com.example.myopenweather.data
 
-import com.example.myopenweather.network.OpenWeatherApiService
-import retrofit2.Retrofit
+import com.example.myopenweather.network.OpenWeatherCurrentApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Retrofit
 
 /**
  * Dependency Injection container at the application level.
@@ -32,8 +32,8 @@ class DefaultAppContainer : AppContainer {
     /**
      * Retrofit service object for creating api calls
      */
-    private val retrofitService: OpenWeatherApiService by lazy {
-        retrofit.create(OpenWeatherApiService::class.java)
+    private val retrofitService: OpenWeatherCurrentApiService by lazy {
+        retrofit.create(OpenWeatherCurrentApiService::class.java)
     }
 
     /**

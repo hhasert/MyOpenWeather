@@ -8,10 +8,9 @@ import retrofit2.http.Query
 interface OpenWeatherCurrentApiService {
     @GET("data/3.0/onecall")
     suspend fun getOpenWeather(
-        @Query(value = "lat") latitude : String,
-        @Query(value = "lon") longitude : String,
-        @Query(value = "exclude") exclude : String = "hourly,daily,minutely,alerts",
-        @Query(value="appid") apiKey : String
+        @Query(value = "lat") latitude: String,
+        @Query(value = "lon") longitude: String,
+        @Query(value = "exclude") exclude: String = "hourly,daily,minutely,alerts"
     ): OpenWeatherCurrent
 
     @GET("geo/1.0/direct")

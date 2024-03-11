@@ -8,10 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.myopenweather.BuildConfig
 import com.example.myopenweather.OpenWeatherApplication
 import com.example.myopenweather.data.OpenWeatherRepository
 import com.example.myopenweather.model.GeoLocation
-import com.example.myopenweather.model.OpenWeather
+import com.example.myopenweather.model.OpenWeatherCurrent
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -30,7 +31,7 @@ sealed interface GeoLocationByCoordsUiState {
     object Loading : GeoLocationByCoordsUiState
 }
 sealed interface OpenWeatherUiState {
-    data class Success(val openWeather: OpenWeather) : OpenWeatherUiState
+    data class Success(val openWeather: OpenWeatherCurrent) : OpenWeatherUiState
     object Error : OpenWeatherUiState
     object Loading : OpenWeatherUiState
 }
@@ -45,7 +46,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         private set
 
 // Go to https://openweathermap.org/api , create an account and get an API Key
-    private val apiKey = "get one from openweather"
+    private val apiKey = BuildConfig.API_KEY
     /**
      * Call getGeoLocation() on init so we can display status immediately.
      */
