@@ -12,7 +12,10 @@ data class OpenWeatherCurrent(
    val wind  : Wind,
    @SerialName(value = "name")
     val locationName : String,
-    val weather : List <Weather>,
+   @SerialName(value = "weather")
+    val weatherCondition : List <WeatherCondition>,
+   @SerialName(value = "main")
+    val weather : Weather
 )
 
 @Serializable
@@ -44,9 +47,26 @@ data class Wind(
     val gust: Double? = null
 )
 @Serializable
-data class Weather (
+data class WeatherCondition (
     val id : Integer,
     val main : String,
     val description : String,
     val icon : String
+)
+@Serializable
+data class Weather (
+   @SerialName(value = "temp")
+   val temperature: Double,
+   @SerialName(value = "feels_like")
+   val temperatureFeelsLike : Double,
+   @SerialName(value = "temp_min")
+   val temperatureMinimum : Double,
+   @SerialName(value = "temp_max")
+   val temperatureMaximum : Double,
+   val pressure : Integer,
+   val humidity : Integer,
+   @SerialName(value = "sea_level")
+   val pressureSeaLevel : Integer? = null,
+   @SerialName(value = "grnd_level")
+   val  pressureGroundLevel : Integer? = null
 )

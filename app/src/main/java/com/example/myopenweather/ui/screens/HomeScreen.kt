@@ -92,8 +92,9 @@ fun PhotosGridScreen(
         Text ("longitude : " + openWeatherCurrent.coordinates.longitude)
         Text ("Wind Speed : " + openWeatherCurrent.wind.speed.toString() + " m/s")
         Text ("Wind Angle : " + openWeatherCurrent.wind.deg.toString() + " deg")
-        Text ("Weather : " + openWeatherCurrent.weather[0].main)
-        Text ("Weather : " + openWeatherCurrent.weather[0].description)
+        Text ("Weather : " + openWeatherCurrent.weatherCondition[0].main)
+        Text ("Weather : " + openWeatherCurrent.weatherCondition[0].description)
+        Text ("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
     }
 }
 @Composable
