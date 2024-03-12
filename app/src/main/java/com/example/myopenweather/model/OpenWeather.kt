@@ -3,6 +3,8 @@ package com.example.myopenweather.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
+// See https://openweathermap.org/current for the API definition
+// Some parameters are optional but this is not properly documented
 
 @Serializable
 data class OpenWeatherCurrent(
@@ -15,9 +17,14 @@ data class OpenWeatherCurrent(
    @SerialName(value = "weather")
     val weatherCondition : List <WeatherCondition>,
    @SerialName(value = "main")
-    val weather : Weather
+    val weather : Weather,
+    val visibility : Int,
+    val rain : RainOrSnow? = null,
+    val snow : RainOrSnow? = null,
+    val clouds : Clouds,
 )
 
+// See https://openweathermap.org/api/geocoding-api for teh API definition
 @Serializable
 data class GeoLocation(
     val name : String,
@@ -33,6 +40,7 @@ data class GeoLocation(
     val state : String
 )
 
+// Supporting classes
 @Serializable
 data class Coordinates(
     @SerialName(value = "lon")
@@ -43,13 +51,15 @@ data class Coordinates(
 @Serializable
 data class Wind(
     val speed: Double,
-    val deg: Integer,
+    @SerialName(value = "deg")
+    val direction: Int,
     val gust: Double? = null
 )
 @Serializable
 data class WeatherCondition (
-    val id : Integer,
-    val main : String,
+    val id : Int,
+    @SerialName(value = "main")
+    val summary : String,
     val description : String,
     val icon : String
 )
@@ -63,10 +73,22 @@ data class Weather (
    val temperatureMinimum : Double,
    @SerialName(value = "temp_max")
    val temperatureMaximum : Double,
-   val pressure : Integer,
-   val humidity : Integer,
+   val pressure : Int,
+   val humidity : Int,
    @SerialName(value = "sea_level")
-   val pressureSeaLevel : Integer? = null,
+   val pressureSeaLevel : Int? = null,
    @SerialName(value = "grnd_level")
-   val  pressureGroundLevel : Integer? = null
+   val  pressureGroundLevel : Int? = null
+)
+@Serializable
+data class RainOrSnow (
+    @SerialName(value = "1h")
+    val OneHour : Int? = null,
+    @SerialName(value = "3h")
+    val ThreeHour: Int? = null
+)
+@Serializable
+data class Clouds(
+    @SerialName(value = "all")
+    val cloudiness : Int? = null
 )
