@@ -22,6 +22,9 @@ data class OpenWeatherCurrent(
     val rain : RainOrSnow? = null,
     val snow : RainOrSnow? = null,
     val clouds : Clouds,
+    val timezone : Int,
+   @SerialName(value = "dt")
+    val datetime : Long,
 )
 
 // See https://openweathermap.org/api/geocoding-api for teh API definition
@@ -37,7 +40,9 @@ data class GeoLocation(
     @SerialName(value = "lon")
     val longitude : Double,
     val country : String,
-    val state : String
+    val state : String,
+    @SerialName(value = "sys")
+    val sun : Sun? = null,
 )
 
 // Supporting classes
@@ -91,4 +96,9 @@ data class RainOrSnow (
 data class Clouds(
     @SerialName(value = "all")
     val cloudiness : Int? = null
+)
+@Serializable
+data class Sun (
+    val sunrise : Long,
+    val sunset  : Long,
 )

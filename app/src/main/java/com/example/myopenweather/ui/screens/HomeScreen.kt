@@ -96,6 +96,9 @@ fun PhotosGridScreen(
         Text ("Weather : " + openWeatherCurrent.weatherCondition[0].description)
         Text ("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
         Text ("Cloudiness : " + openWeatherCurrent.clouds.cloudiness + " %")
+
+        Text ("Time : " + java.time.format.DateTimeFormatter.ISO_INSTANT
+            .format(java.time.Instant.ofEpochSecond(openWeatherCurrent.datetime)))
     }
 }
 @Composable
