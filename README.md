@@ -5,3 +5,6 @@ Since you can experiment with the OpenWeather API for free (limited traffic and 
 Currently it does not have a design, its just stretching my wings on the concepts and getting things working.
 
 The project contains a secret.properties file containing the API Key from https://home.openweathermap.org/ which needs to be filled in locally. 
+
+First steps are there, there is a navhost controller to support multiple screens and a viewmodel/repository etc according to the architecture in the courses. 
+For now it shows a location screen (prefilled in the view model with my location) and a next button to get the current weather. Nexs step will be to get some decent weather screen.
