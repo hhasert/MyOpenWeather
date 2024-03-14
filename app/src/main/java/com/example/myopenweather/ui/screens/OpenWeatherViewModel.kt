@@ -125,6 +125,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             }
         }
     }
+    //TODO : Get current location data from device
     fun getCurrentLocation() : LocationData {
         var location = LocationData()
             location.id = "current"

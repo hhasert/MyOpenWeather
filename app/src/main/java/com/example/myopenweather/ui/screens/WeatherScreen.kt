@@ -27,7 +27,7 @@ fun WeatherScreen(
 ) {
     when (openWeatherCurrentUiState) {
         is OpenWeatherCurrentUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is OpenWeatherCurrentUiState.Success -> PhotosGridScreen(
+        is OpenWeatherCurrentUiState.Success -> CurrentWeatherScreen(
             openWeatherCurrentUiState.openWeatherCurrent, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
         )
         is OpenWeatherCurrentUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
@@ -35,7 +35,7 @@ fun WeatherScreen(
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PhotosGridScreen(
+fun CurrentWeatherScreen(
     openWeatherCurrent: OpenWeatherCurrent,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
