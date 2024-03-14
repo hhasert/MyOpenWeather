@@ -10,8 +10,7 @@ import com.google.android.gms.location.LocationServices
 class OpenWeatherApplication : Application() {
     /** AppContainer instance used by the rest of classes to obtain dependencies */
     lateinit var container: AppContainer
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer()

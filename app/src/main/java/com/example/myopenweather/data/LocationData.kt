@@ -1,10 +1,10 @@
 package com.example.myopenweather.data
 
 data class LocationData (
-    val id: String,
-    val name: String,
-    val latitude: String,
-    val longitude: String
+    var id: String = "",
+    var name: String = "",
+    var latitude: String = "",
+    var longitude: String = ""
 )
 
 object locationsData {

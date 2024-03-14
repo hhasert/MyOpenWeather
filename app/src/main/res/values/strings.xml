@@ -3,4 +3,7 @@
     <string name="loading_failed">Failed to load</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading</string>
+    <string name="weather">weather</string>
+    <string name="back_button">Back</string>
+    <string name="next">Next</string>
 </resources>

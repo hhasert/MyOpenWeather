@@ -48,3 +48,6 @@ class NetworkOpenWeatherRepository(
         apiKey : String
     ): List <GeoLocation> = openWeatherApiService.getGeoLocationByCoords( latitude, longitude ,apiKey )
 }
+data class LocationUiState (
+    var currentLocation: LocationData
+)

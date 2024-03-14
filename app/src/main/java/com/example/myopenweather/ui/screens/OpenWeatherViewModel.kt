@@ -11,9 +11,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myopenweather.BuildConfig
 import com.example.myopenweather.OpenWeatherApplication
+import com.example.myopenweather.data.LocationData
+import com.example.myopenweather.data.LocationUiState
 import com.example.myopenweather.data.OpenWeatherRepository
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -46,6 +51,9 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         private set
     var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(GeoLocationByCoordsUiState.Loading)
         private set
+
+    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = getCurrentLocation()))
+    val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
 // Go to https://openweathermap.org/api , create an account and get an API Key
     private val apiKey = BuildConfig.API_KEY
@@ -117,7 +125,14 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             }
         }
     }
-
+    fun getCurrentLocation() : LocationData {
+        var location = LocationData()
+            location.id = "current"
+            location.name = "Den Haag"
+            location.latitude = "52.069526"
+            location.longitude = "4.406018"
+        return (location)
+    }
     /**
      * Factory for [OpenWeatherViewModel] that takes [OpenWeatherRepository] as a dependency
      */
