@@ -120,6 +120,11 @@ fun OpenWeatherApp(
             }
             composable(route = MyOpenWeatherScreen.Weather.name) {
                 val context = LocalContext.current
+  /*              openWeatherViewModel.getOpenWeatherCurrent(
+                    latitude = uiState.currentLocation.longitude,
+                    longitude = uiState.currentLocation.latitude,
+                    units = "metric",
+                    language = "en") */
                 WeatherScreen(
                     openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
                     retryAction = { /*TODO*/ },

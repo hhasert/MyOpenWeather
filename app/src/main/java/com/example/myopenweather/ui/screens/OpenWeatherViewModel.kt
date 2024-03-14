@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myopenweather.BuildConfig
 import com.example.myopenweather.OpenWeatherApplication
 import com.example.myopenweather.data.LocationData
-import com.example.myopenweather.data.LocationUiState
 import com.example.myopenweather.data.OpenWeatherRepository
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
@@ -29,20 +28,23 @@ private const val TAG = "MyOpenWeather"
  */
 sealed interface GeoLocationUiState {
     data class Success(val geolocations : List <GeoLocation>) : GeoLocationUiState
-    object Error : GeoLocationUiState
-    object Loading : GeoLocationUiState
+    data object Error : GeoLocationUiState
+    data object Loading : GeoLocationUiState
 }
 sealed interface GeoLocationByCoordsUiState {
     data class Success(val geolocations : List <GeoLocation>) : GeoLocationByCoordsUiState
-    object Error : GeoLocationByCoordsUiState
-    object Loading : GeoLocationByCoordsUiState
+    data object Error : GeoLocationByCoordsUiState
+    data object Loading : GeoLocationByCoordsUiState
 }
 sealed interface OpenWeatherCurrentUiState {
     data class Success(val openWeatherCurrent: OpenWeatherCurrent) : OpenWeatherCurrentUiState
-    object Error : OpenWeatherCurrentUiState
-    object Loading : OpenWeatherCurrentUiState
+    data object Error : OpenWeatherCurrentUiState
+    data object Loading : OpenWeatherCurrentUiState
 }
 
+data class LocationUiState (
+    var currentLocation: LocationData
+)
 class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
     var openWeatherCurrentUiState: OpenWeatherCurrentUiState by mutableStateOf(OpenWeatherCurrentUiState.Loading)
@@ -61,13 +63,12 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      * Call getGeoLocation() on init so we can display status immediately.
      */
     init {
-        val cityName = "Den Haag"
-        val lat  = "52.069526"
-        val lon = "4.406018"
-        val units = "metric"
-        val language = "en"
-        getGeoLocation (cityName)
-        getOpenWeatherCurrent(lat, lon, units, language)
+        getGeoLocation (uiState.value.currentLocation.name)
+        getOpenWeatherCurrent(
+            latitude = uiState.value.currentLocation.latitude,
+            longitude = uiState.value.currentLocation.latitude,
+            units = "metric",
+            language = "en")
          }
 
     fun getGeoLocation( name : String) {
@@ -127,7 +128,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     }
     //TODO : Get current location data from device
     fun getCurrentLocation() : LocationData {
-        var location = LocationData()
+        val location = LocationData()
             location.id = "current"
             location.name = "Den Haag"
             location.latitude = "52.069526"
