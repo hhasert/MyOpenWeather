@@ -66,7 +66,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         getGeoLocation (uiState.value.currentLocation.name)
         getOpenWeatherCurrent(
             latitude = uiState.value.currentLocation.latitude,
-            longitude = uiState.value.currentLocation.latitude,
+            longitude = uiState.value.currentLocation.longitude,
             units = "metric",
             language = "en")
          }

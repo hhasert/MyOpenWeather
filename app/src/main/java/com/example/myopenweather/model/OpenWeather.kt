@@ -18,7 +18,7 @@ data class OpenWeatherCurrent(
     val weatherCondition : List <WeatherCondition>,
    @SerialName(value = "main")
     val weather : Weather,
-    val visibility : Int,
+    val visibility : Int = -1,
     val rain : RainOrSnow? = null,
     val snow : RainOrSnow? = null,
     val clouds : Clouds,
@@ -88,9 +88,9 @@ data class Weather (
 @Serializable
 data class RainOrSnow (
     @SerialName(value = "1h")
-    val OneHour : Int? = null,
+    val OneHour : Double? = null,
     @SerialName(value = "3h")
-    val ThreeHour: Int? = null
+    val ThreeHour: Double? = null
 )
 @Serializable
 data class Clouds(

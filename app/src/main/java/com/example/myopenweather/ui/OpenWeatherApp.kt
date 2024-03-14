@@ -24,7 +24,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -119,12 +118,12 @@ fun OpenWeatherApp(
                 )
             }
             composable(route = MyOpenWeatherScreen.Weather.name) {
-                val context = LocalContext.current
-  /*              openWeatherViewModel.getOpenWeatherCurrent(
-                    latitude = uiState.currentLocation.longitude,
-                    longitude = uiState.currentLocation.latitude,
-                    units = "metric",
-                    language = "en") */
+/*               run { openWeatherViewModel.getOpenWeatherCurrent(
+                        latitude = uiState.currentLocation.longitude,
+                        longitude = uiState.currentLocation.latitude,
+                        units = "metric",
+                        language = "en")
+                } */
                 WeatherScreen(
                     openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
                     retryAction = { /*TODO*/ },
