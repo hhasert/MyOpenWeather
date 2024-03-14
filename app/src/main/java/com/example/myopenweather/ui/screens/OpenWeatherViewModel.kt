@@ -83,7 +83,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             } catch (e: IOException) {
                 GeoLocationUiState.Error
             } catch (e: HttpException) {
-                Log.e(TAG, "ERROR: HttpException : " + e.message())
+                Log.e(TAG, "ERROR: getGeoLocation - HttpException : " + e.message())
                 GeoLocationUiState.Error
             }
         }
@@ -101,7 +101,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             } catch (e: IOException) {
                 GeoLocationByCoordsUiState.Error
             } catch (e: HttpException) {
-                Log.e(TAG, "ERROR: HttpException : " + e.message())
+                Log.e(TAG, "ERROR: getGeoLocationByCoords -  HttpException : " + e.message())
                 GeoLocationByCoordsUiState.Error
             }
         }
@@ -121,7 +121,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             } catch (e: IOException) {
                 OpenWeatherCurrentUiState.Error
             } catch (e: HttpException) {
-                Log.e(TAG, "ERROR: HttpException : " + e.message())
+                Log.e(TAG, "ERROR: getOpenWeatherCurrent - HttpException : " + e.message())
                 OpenWeatherCurrentUiState.Error
             }
         }
