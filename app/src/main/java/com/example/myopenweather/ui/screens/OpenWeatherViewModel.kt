@@ -63,13 +63,8 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      * Call getGeoLocation() on init so we can display status immediately.
      */
     init {
-        getGeoLocation (uiState.value.currentLocation.name)
-        getOpenWeatherCurrent(
-            latitude = uiState.value.currentLocation.latitude,
-            longitude = uiState.value.currentLocation.longitude,
-            units = "metric",
-            language = "en")
-         }
+        getGeoLocation(uiState.value.currentLocation.name)
+    }
 
     fun getGeoLocation( name : String) {
         viewModelScope.launch {
@@ -109,6 +104,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     fun getOpenWeatherCurrent( latitude : String, longitude:String, units : String, language : String) {
         viewModelScope.launch {
             openWeatherCurrentUiState = OpenWeatherCurrentUiState.Loading
+            Log.i(TAG, "getOpenWeather called")
             openWeatherCurrentUiState = try {
                 OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(
                     latitude,

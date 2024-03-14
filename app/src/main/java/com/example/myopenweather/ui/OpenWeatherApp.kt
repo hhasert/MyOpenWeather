@@ -37,6 +37,7 @@ import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.OpenWeatherViewModel
 import com.example.myopenweather.ui.screens.WeatherScreen
 
+private const val TAG = "MyOpenWeather"
 /**
  * enum values that represent the screens in the app
  */
@@ -111,19 +112,21 @@ fun OpenWeatherApp(
                 LocationScreen(
                     geoLocationUiState = openWeatherViewModel.geoLocationUiState,
                     retryAction = { /*TODO*/},
-                    onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Weather.name) },
+                    onNextButtonClicked = {
+                                            openWeatherViewModel.getOpenWeatherCurrent(
+                                            latitude = uiState.currentLocation.latitude,
+                                            longitude = uiState.currentLocation.longitude,
+                                            units = "metric",
+                                            language = "en")
+                                            navController.navigate(MyOpenWeatherScreen.Weather.name)
+                                          },
+
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
                 )
             }
             composable(route = MyOpenWeatherScreen.Weather.name) {
-/*               run { openWeatherViewModel.getOpenWeatherCurrent(
-                        latitude = uiState.currentLocation.longitude,
-                        longitude = uiState.currentLocation.latitude,
-                        units = "metric",
-                        language = "en")
-                } */
                 WeatherScreen(
                     openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
                     retryAction = { /*TODO*/ },
