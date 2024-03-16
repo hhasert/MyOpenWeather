@@ -47,7 +47,7 @@ import com.example.myopenweather.ui.screens.WeatherScreen
  * enum values that represent the screens in the app
  */
 enum class MyOpenWeatherScreen(@StringRes val title: Int) {
-    Permissions(title = R.string.requestpermissions),
+    RequestPermissions(title = R.string.requestpermissions),
     Location(title = R.string.app_name),
     Weather(title = R.string.weather),
 }
@@ -94,6 +94,8 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
     )
     val openWeatherViewModel: OpenWeatherViewModel =
         viewModel(factory = OpenWeatherViewModel.Factory)
+    val uiState by openWeatherViewModel.uiState.collectAsState()
+
     val context = LocalContext.current
 
     Scaffold(
@@ -104,9 +106,9 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
             navigateUp = { navController.navigateUp() },
             scrollBehavior = scrollBehavior) }
     ) { innerPadding ->
-        val uiState by openWeatherViewModel.uiState.collectAsState()
-        val startDestination : String
-        if (ActivityCompat.checkSelfPermission(
+        // Check to see if location permissions were granted, if not tell NavHost to start with
+        // [LocationPermissionScreen] to set them correctly
+        val startDestination = if (ActivityCompat.checkSelfPermission(
                context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -114,9 +116,10 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            startDestination = MyOpenWeatherScreen.Permissions.name
+            MyOpenWeatherScreen.RequestPermissions.name
         }
-        else startDestination = MyOpenWeatherScreen.Location.name
+        else MyOpenWeatherScreen.Location.name
+
         NavHost(
             navController = navController,
             startDestination = startDestination,
@@ -126,9 +129,12 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                 .padding(innerPadding)
         ) {
 
-            composable(route = MyOpenWeatherScreen.Permissions.name) {
-                LocationPermissionScreen(onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Location.name) })
+            composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
+                LocationPermissionScreen (
+                    { navController.navigate(MyOpenWeatherScreen.Location.name) }
+                )
             }
+
             composable(route = MyOpenWeatherScreen.Location.name) {
                 LocationScreen(
                     geoLocationUiState = openWeatherViewModel.geoLocationUiState,

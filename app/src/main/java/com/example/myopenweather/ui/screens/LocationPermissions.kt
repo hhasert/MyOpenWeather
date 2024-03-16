@@ -1,7 +1,5 @@
 package com.example.myopenweather.ui.screens
 
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-
 /*
  * Copyright 2023 The Android Open Source Project
  *
@@ -17,11 +15,10 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,69 +30,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
-import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
-
-/**
- * Simple screen that manages the location permission state
- */
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun LocationPermissions(text: String, rationale: String, locationState: PermissionState) {
-    LocationPermissions(
-        text = text,
-        rationale = rationale,
-        locationState = rememberMultiplePermissionsState(
-            permissions = listOf(
-                locationState.permission
-            )
-        )
-    )
-}
-
-/**
- * Simple screen that manages the location permission state
- */
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun LocationPermissions(text: String, rationale: String, locationState: MultiplePermissionsState) {
-    var showRationale by remember(locationState) {
-        mutableStateOf(false)
-    }
-    if (showRationale) {
-        PermissionRationaleDialog(rationaleState = RationaleState(
-            title = "Location Permission Access",
-            rationale = rationale,
-            onRationaleReply = { proceed ->
-                if (proceed) {
-                    locationState.launchMultiplePermissionRequest()
-                }
-                showRationale = false
-            }
-        ))
-    }
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        PermissionRequestButton(isGranted = false, title = text) {
-            if (locationState.shouldShowRationale) {
-                showRationale = true
-            } else {
-                locationState.launchMultiplePermissionRequest()
-            }
-        }
-    }
-}
 
 /**
  * A button that shows the title or the request permission action.
