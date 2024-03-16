@@ -1,17 +1,11 @@
 package com.example.myopenweather
 
-import android.Manifest
 import android.app.Application
-import android.content.pm.PackageManager
-import android.location.Location
-import androidx.core.app.ActivityCompat
 import com.example.myopenweather.data.AppContainer
 import com.example.myopenweather.data.DefaultAppContainer
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 // FusedLocationProviderClient - Main class for receiving location updates.
-private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+//private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
 // LocationRequest - Requirements for the location updates, i.e.,
 // how often you should receive updates, the priority, etc.
@@ -31,7 +25,7 @@ class OpenWeatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer()
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+/*        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -45,7 +39,7 @@ class OpenWeatherApplication : Application() {
         fusedLocationProviderClient.lastLocation
             .addOnSuccessListener { currentLocation: Location? ->
                 // Got last known location. In some rare situations this can be null.
-            }
+            }*/
 
     }
 }

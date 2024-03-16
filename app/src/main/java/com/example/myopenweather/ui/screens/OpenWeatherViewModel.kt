@@ -57,7 +57,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     private val _uiState = MutableStateFlow(LocationUiState(currentLocation = getCurrentLocation()))
     val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
-// Go to https://openweathermap.org/api , create an account and get an API Key
+    // Go to https://openweathermap.org/api , create an account and get an API Key
     private val apiKey = BuildConfig.API_KEY
     /**
      * Call getGeoLocation() on init so we can display status immediately.
@@ -123,13 +123,13 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         }
     }
     //TODO : Get current location data from device
-    fun getCurrentLocation() : LocationData {
-        val location = LocationData()
+    private fun getCurrentLocation() : LocationData {
+            val location = LocationData()
             location.id = "current"
             location.name = "Den Haag"
             location.latitude = "52.069526"
             location.longitude = "4.406018"
-        return (location)
+            return (location)
     }
     /**
      * Factory for [OpenWeatherViewModel] that takes [OpenWeatherRepository] as a dependency
