@@ -103,9 +103,11 @@ fun WeatherInfo (
         {
             WeatherIcon (openWeatherCurrent)
             Column(
+                verticalArrangement = Arrangement.Center
             ) {
                 Text( fontSize = 14.sp,
                       text = openWeatherCurrent.weatherCondition[0].description)
+                Spacer (modifier = Modifier.height(4.dp))
                 Text( fontSize = 14.sp,
                       text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds")
             }
