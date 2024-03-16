@@ -1,16 +1,16 @@
 package com.example.myopenweather
 
+import android.Manifest
 import android.app.Application
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationRequest
-import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.example.myopenweather.data.AppContainer
 import com.example.myopenweather.data.DefaultAppContainer
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import java.util.concurrent.TimeUnit
 
 // FusedLocationProviderClient - Main class for receiving location updates.
 private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -34,6 +34,24 @@ class OpenWeatherApplication : Application() {
         super.onCreate()
         container = DefaultAppContainer()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return
+        }
         fusedLocationProviderClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.

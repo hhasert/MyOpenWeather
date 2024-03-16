@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.myopenweather.R
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -36,7 +40,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun LocationPermissionScreen() {
+fun LocationPermissionScreen( onNextButtonClicked: () -> Unit,) {
     val context = LocalContext.current
 
     // Approximate location access is sufficient for most of use cases
@@ -145,6 +149,15 @@ fun LocationPermissionScreen() {
                     }
                 }
             }
+
+        }
+        Button( modifier = Modifier.align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .padding(bottom = 100.dp, start = 16.dp, end = 16.dp),
+            // the button is enabled when the user makes a selection
+            onClick = onNextButtonClicked)
+        {
+            Text(stringResource(R.string.finished))
         }
         FloatingActionButton(
             modifier = Modifier.align(Alignment.BottomEnd),

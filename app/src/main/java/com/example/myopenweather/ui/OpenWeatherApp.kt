@@ -104,7 +104,7 @@ fun OpenWeatherApp(
 
         NavHost(
             navController = navController,
-            startDestination = MyOpenWeatherScreen.Location.name,
+            startDestination = MyOpenWeatherScreen.Permissions.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
@@ -112,7 +112,7 @@ fun OpenWeatherApp(
         ) {
 
             composable(route = MyOpenWeatherScreen.Permissions.name) {
-                LocationPermissionScreen()
+                LocationPermissionScreen(onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Location.name) })
             }
             composable(route = MyOpenWeatherScreen.Location.name) {
                 LocationScreen(

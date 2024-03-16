@@ -8,4 +8,5 @@
     <string name="weathericon" >weather icon</string>
     <string name="back_button">Back</string>
     <string name="next">Next</string>
+    <string name="finished">Finished</string>
 </resources>
