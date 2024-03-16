@@ -77,7 +77,6 @@ fun CurrentWeatherScreen(
             Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
             Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
             Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
-            Text("Weather : " + openWeatherCurrent.weatherCondition[0].description)
             Text("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
             Text("Cloudiness : " + openWeatherCurrent.clouds.cloudiness + " %")
             Text(

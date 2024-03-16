@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myopenweather.R
 import com.example.myopenweather.model.GeoLocation
 
+
 @Composable
 fun LocationScreen(
     geoLocationUiState: GeoLocationUiState,
