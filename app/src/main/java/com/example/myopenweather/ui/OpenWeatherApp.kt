@@ -33,15 +33,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myopenweather.R
+import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.OpenWeatherViewModel
 import com.example.myopenweather.ui.screens.WeatherScreen
 
-private const val TAG = "MyOpenWeather"
+//private const val TAG = "MyOpenWeather"
 /**
  * enum values that represent the screens in the app
  */
 enum class MyOpenWeatherScreen(@StringRes val title: Int) {
+    Permissions(title = R.string.requestpermissions),
     Location(title = R.string.app_name),
     Weather(title = R.string.weather),
 }
@@ -74,7 +76,7 @@ fun OpenWeatherTopAppBar(
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenWeatherApp(
@@ -108,6 +110,10 @@ fun OpenWeatherApp(
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
+
+            composable(route = MyOpenWeatherScreen.Permissions.name) {
+                LocationPermissionScreen()
+            }
             composable(route = MyOpenWeatherScreen.Location.name) {
                 LocationScreen(
                     geoLocationUiState = openWeatherViewModel.geoLocationUiState,
