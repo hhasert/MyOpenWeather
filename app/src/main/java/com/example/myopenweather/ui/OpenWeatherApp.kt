@@ -1,7 +1,6 @@
 package com.example.myopenweather.ui
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -27,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
@@ -83,8 +83,7 @@ fun OpenWeatherTopAppBar(
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OpenWeatherApp(context : Context,
-                   navController: NavHostController = rememberNavController()
+fun OpenWeatherApp( navController: NavHostController = rememberNavController()
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     // Get current back stack entry
@@ -95,6 +94,7 @@ fun OpenWeatherApp(context : Context,
     )
     val openWeatherViewModel: OpenWeatherViewModel =
         viewModel(factory = OpenWeatherViewModel.Factory)
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
