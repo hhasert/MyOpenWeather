@@ -86,6 +86,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // Coil
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
 
