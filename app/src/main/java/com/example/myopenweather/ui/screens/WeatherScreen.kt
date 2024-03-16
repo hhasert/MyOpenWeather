@@ -5,11 +5,17 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myopenweather.R
@@ -51,27 +58,18 @@ fun CurrentWeatherScreen(
     contentPadding: PaddingValues = PaddingValues(5.dp),
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
 
         Column(
-            modifier = modifier,
+            modifier = modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current).data(
-                    "https://openweathermap.org/img/w/" + openWeatherCurrent.weatherCondition[0].icon + ".png"
-                )
-                    .crossfade(true).build(),
-                error = painterResource(R.drawable.ic_broken_image),
-                placeholder = painterResource(R.drawable.loading_img),
-                contentDescription = stringResource(R.string.weathericon),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
+            WeatherInfo (openWeatherCurrent , modifier = modifier.height(128.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text("Location : " + openWeatherCurrent.locationName)
             Text("latitude : " + openWeatherCurrent.coordinates.latitude)
@@ -87,5 +85,50 @@ fun CurrentWeatherScreen(
                     .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
             )
         }
+    }
+}
+@Composable
+fun WeatherInfo (
+    openWeatherCurrent: OpenWeatherCurrent,
+    modifier: Modifier = Modifier
+)
+{
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier,
+    ) {
+        Row(horizontalArrangement = Arrangement.Center,
+            modifier = modifier.padding(16.dp) )
+        {
+            WeatherIcon (openWeatherCurrent)
+            Column(
+            ) {
+                Text( fontSize = 14.sp,
+                      text = openWeatherCurrent.weatherCondition[0].description)
+                Text( fontSize = 14.sp,
+                      text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds")
+            }
+        }
+    }
+}
+@Composable
+fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
+                 modifier: Modifier = Modifier)
+{
+    Surface(
+        modifier = modifier.size(64.dp, 64.dp )
+    )
+    {
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current).data(
+                "https://openweathermap.org/img/w/" + openWeatherCurrent.weatherCondition[0].icon + ".png"
+            )
+                .crossfade(true).build(),
+            error = painterResource(R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_img),
+            contentDescription = stringResource(R.string.weathericon),
+            contentScale = ContentScale.Crop,
+        )
     }
 }
