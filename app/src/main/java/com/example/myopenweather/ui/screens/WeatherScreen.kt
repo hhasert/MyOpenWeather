@@ -78,7 +78,6 @@ fun CurrentWeatherScreen(
             Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
             Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
             Text("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
-            Text("Cloudiness : " + openWeatherCurrent.clouds.cloudiness + " %")
             Text(
                 "Time : " + DateTimeFormatter.ISO_INSTANT
                     .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
@@ -89,8 +88,7 @@ fun CurrentWeatherScreen(
 @Composable
 fun WeatherInfo (
     openWeatherCurrent: OpenWeatherCurrent,
-    modifier: Modifier = Modifier
-)
+    modifier: Modifier)
 {
     Column(
         verticalArrangement = Arrangement.Center,
