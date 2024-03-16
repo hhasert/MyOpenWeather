@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -54,11 +53,6 @@ fun LocationPermissionScreen( onNextButtonClicked: () -> Unit,) {
         listOf(
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
         ),
-    )
-
-    // In really rare use cases, accessing background location might be needed.
-    val bgLocationPermissionState = rememberPermissionState(
-        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
     )
 
     // Keeps track of the rationale dialog state, needed when the user requires further rationale
@@ -117,39 +111,6 @@ fun LocationPermissionScreen( onNextButtonClicked: () -> Unit,) {
                     fineLocationPermissionState.launchMultiplePermissionRequest()
                 }
             }
-
-            // Background location permission needed from Android Q,
-            // before Android Q, granting Fine or Coarse location access automatically grants Background
-            // location access
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                PermissionRequestButton(
-                    isGranted = bgLocationPermissionState.status.isGranted,
-                    title = "Background location access",
-                ) {
-                    if (locationPermissionState.status.isGranted || fineLocationPermissionState.allPermissionsGranted) {
-                        if (bgLocationPermissionState.status.shouldShowRationale) {
-                            rationaleState = RationaleState(
-                                "Request background location",
-                                "In order to use this feature please grant access by accepting " + "the background location permission dialog." + "\n\nWould you like to continue?",
-                            ) { proceed ->
-                                if (proceed) {
-                                    bgLocationPermissionState.launchPermissionRequest()
-                                }
-                                rationaleState = null
-                            }
-                        } else {
-                            bgLocationPermissionState.launchPermissionRequest()
-                        }
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Please grant either Approximate location access permission or Fine" + "location access permission",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
-                }
-            }
-
         }
         Button( modifier = Modifier.align(Alignment.BottomCenter)
             .fillMaxWidth()

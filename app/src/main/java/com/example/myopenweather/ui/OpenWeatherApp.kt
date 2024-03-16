@@ -1,5 +1,8 @@
 package com.example.myopenweather.ui
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -26,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -79,8 +83,8 @@ fun OpenWeatherTopAppBar(
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OpenWeatherApp(
-    navController: NavHostController = rememberNavController()
+fun OpenWeatherApp(context : Context,
+                   navController: NavHostController = rememberNavController()
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     // Get current back stack entry
@@ -101,10 +105,21 @@ fun OpenWeatherApp(
             scrollBehavior = scrollBehavior) }
     ) { innerPadding ->
         val uiState by openWeatherViewModel.uiState.collectAsState()
-
+        val startDestination : String
+        if (ActivityCompat.checkSelfPermission(
+               context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            startDestination = MyOpenWeatherScreen.Permissions.name
+        }
+        else startDestination = MyOpenWeatherScreen.Location.name
         NavHost(
             navController = navController,
-            startDestination = MyOpenWeatherScreen.Permissions.name,
+            startDestination = startDestination,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
