@@ -1,5 +1,6 @@
 package com.example.myopenweather.ui.screens
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,8 +14,11 @@ import com.example.myopenweather.BuildConfig
 import com.example.myopenweather.OpenWeatherApplication
 import com.example.myopenweather.data.LocationData
 import com.example.myopenweather.data.OpenWeatherRepository
+import com.example.myopenweather.fusedLocationProviderClient
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,7 +58,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(GeoLocationByCoordsUiState.Loading)
         private set
 
-    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = getCurrentLocation()))
+    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setCurrentLocation()))
     val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
     // Go to https://openweathermap.org/api , create an account and get an API Key
@@ -62,8 +66,13 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     /**
      * Call getGeoLocation() on init so we can display status immediately.
      */
+    var loc : Pair<Double, Double> = Pair( first = 52.069526, second = 4.406018 )
     init {
         getGeoLocation(uiState.value.currentLocation.name)
+        getCurrentLocation(
+            { onGetCurrentLocationSuccess(location = loc) },
+            {}
+        )
     }
 
     fun getGeoLocation( name : String) {
@@ -123,15 +132,56 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         }
     }
     //TODO : Get current location data from device
-    private fun getCurrentLocation() : LocationData {
+    private fun setCurrentLocation() : LocationData {
             val location = LocationData()
             location.id = "current"
             location.name = "Den Haag"
-            location.latitude = "52.069526"
-            location.longitude = "4.406018"
+//            location.latitude = "52.069526"
+//            location.longitude = "4.406018"
             return (location)
     }
+    private fun onGetCurrentLocationSuccess (
+        location: Pair<Double, Double>,
+        )
+    {
+        uiState.value.currentLocation.latitude = location.first.toString()
+        uiState.value.currentLocation.longitude = location.second.toString()
+    }
+
     /**
+     * Retrieves the current user location asynchronously.
+     *
+     * @param onGetCurrentLocationSuccess Callback function invoked when the current location is successfully retrieved.
+     *        It provides a Pair representing latitude and longitude.
+     * @param onGetCurrentLocationFailed Callback function invoked when an error occurs while retrieving the current location.
+     *        It provides the Exception that occurred.
+     * @param priority Indicates the desired accuracy of the location retrieval. Default is high accuracy.
+     *        If set to false, it uses balanced power accuracy.
+     */
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation(
+        onGetCurrentLocationSuccess: (Pair<Double, Double>) -> Unit,
+        onGetCurrentLocationFailed: (Exception) -> Unit,
+        priority: Boolean = true
+    ) {
+        // Determine the accuracy priority based on the 'priority' parameter
+        val accuracy = if (priority) Priority.PRIORITY_HIGH_ACCURACY
+        else Priority.PRIORITY_BALANCED_POWER_ACCURACY
+
+        // Check if location permissions are granted
+            fusedLocationProviderClient.getCurrentLocation(
+                accuracy, CancellationTokenSource().token,
+            ).addOnSuccessListener { location ->
+                location?.let {
+                    // If location is not null, invoke the success callback with latitude and longitude
+                    onGetCurrentLocationSuccess(Pair(it.latitude, it.longitude))
+                }
+            }.addOnFailureListener { exception ->
+                // If an error occurs, invoke the failure callback with the exception
+                onGetCurrentLocationFailed(exception)
+       }
+    }
+     /**
      * Factory for [OpenWeatherViewModel] that takes [OpenWeatherRepository] as a dependency
      */
     companion object {

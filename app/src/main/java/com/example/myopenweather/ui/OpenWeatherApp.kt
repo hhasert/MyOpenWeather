@@ -108,18 +108,10 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
     ) { innerPadding ->
         // Check to see if location permissions were granted, if not tell NavHost to start with
         // [LocationPermissionScreen] to set them correctly
-        val startDestination = if (ActivityCompat.checkSelfPermission(
-               context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            MyOpenWeatherScreen.RequestPermissions.name
+        val startDestination = if (areLocationPermissionsGranted()) {
+            MyOpenWeatherScreen.Location.name
         }
-        else MyOpenWeatherScreen.Location.name
-
+        else MyOpenWeatherScreen.RequestPermissions.name
         NavHost(
             navController = navController,
             startDestination = startDestination,
@@ -163,4 +155,14 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
             }
         }
     }
+}
+@Composable
+private fun areLocationPermissionsGranted(): Boolean {
+    val context = LocalContext.current
+    return (ActivityCompat.checkSelfPermission(
+        context, Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED)
 }
