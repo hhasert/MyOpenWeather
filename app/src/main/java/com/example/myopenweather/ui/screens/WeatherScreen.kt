@@ -100,7 +100,7 @@ fun CurrentWeatherScreen(
                   Text("longitude : " + openWeatherCurrent.coordinates.longitude)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Column() {
+                Column {
                     Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
                     Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
                     Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
@@ -146,8 +146,7 @@ fun WeatherInfo (
 @Composable
 fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                  modifier: Modifier = Modifier)
-{ Row(
-) {
+{ Row {
     Surface(
         modifier = modifier.size(80.dp, 80.dp)
     )
@@ -166,7 +165,7 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                 .background(Color.Transparent)
         )
     }
-        Column() {
+        Column {
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 fontSize = 14.sp,
