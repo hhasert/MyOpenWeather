@@ -21,21 +21,21 @@ import com.example.myopenweather.model.GeoLocation
 
 @Composable
 fun LocationScreen(
-    geoLocationUiState: GeoLocationUiState,
+    geoLocationByCoordsUiState: GeoLocationByCoordsUiState,
     retryAction: () -> Unit,
     onNextButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
 ) {
-    when (geoLocationUiState) {
-        is GeoLocationUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is GeoLocationUiState.Success -> LocationsScreen(
-            geoLocationUiState.geolocations,
+    when (geoLocationByCoordsUiState) {
+        is GeoLocationByCoordsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+        is GeoLocationByCoordsUiState.Success -> LocationsScreen(
+            geoLocationByCoordsUiState.geolocations,
             onNextButtonClicked,
             contentPadding = contentPadding,
             modifier = modifier.fillMaxWidth()
         )
-        is GeoLocationUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
+        is GeoLocationByCoordsUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
     @Composable

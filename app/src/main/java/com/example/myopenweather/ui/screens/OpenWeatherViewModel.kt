@@ -66,10 +66,14 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      */
 
     init {
-        getGeoLocation(uiState.value.currentLocation.name)
+//      getGeoLocation(uiState.value.currentLocation.name)
         getCurrentLocation(
             { onGetCurrentLocationSuccess(it) },
             { onGetLastLocationFailed(it) }
+        )
+        getGeoLocationByCoords (
+            uiState.value.currentLocation.latitude,
+            uiState.value.currentLocation.longitude
         )
     }
 
@@ -93,6 +97,9 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     fun getGeoLocationByCoords( latitude : String, longitude:String) {
         viewModelScope.launch {
             geoLocationByCoordsUiState = GeoLocationByCoordsUiState.Loading
+            Log.d(TAG, "getGeoLocationByCoords called")
+            Log.d(TAG, "latitude : " + latitude)
+            Log.d(TAG, "latitude : " + longitude)
             geoLocationByCoordsUiState = try {
                 GeoLocationByCoordsUiState.Success(openWeatherRepository.getGeoLocationByCoords(
                     latitude,
@@ -111,7 +118,6 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     fun getOpenWeatherCurrent( latitude : String, longitude:String, units : String, language : String) {
         viewModelScope.launch {
             openWeatherCurrentUiState = OpenWeatherCurrentUiState.Loading
-            Log.i(TAG, "getOpenWeather called")
             openWeatherCurrentUiState = try {
                 OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(
                     latitude,
@@ -129,23 +135,19 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             }
         }
     }
-    //TODO : Get current location data from device
+    //Prefill location data, will be overwritten by calls to get the location
     private fun setCurrentLocation() : LocationData {
             val location = LocationData()
             location.id = "current"
             location.name = "Den Haag"
-//            location.latitude = "52.069526"
-//            location.longitude = "4.406018"
+            location.latitude = "52.069526"
+            location.longitude = "4.406018"
             return (location)
     }
     private fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
     {
-        Log.d(TAG, "onGetCurrentLocation called")
-        Log.d(TAG, "latitude : " + location.first)
-        Log.d(TAG, "longitude : " + location.second)
         uiState.value.currentLocation.latitude = location.first.toString()
         uiState.value.currentLocation.longitude = location.second.toString()
-
     }
     private fun  onGetLastLocationFailed(e : Exception)
     {

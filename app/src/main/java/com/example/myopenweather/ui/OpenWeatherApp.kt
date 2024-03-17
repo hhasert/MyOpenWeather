@@ -129,7 +129,7 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
 
             composable(route = MyOpenWeatherScreen.Location.name) {
                 LocationScreen(
-                    geoLocationUiState = openWeatherViewModel.geoLocationUiState,
+                    geoLocationByCoordsUiState = openWeatherViewModel.geoLocationByCoordsUiState,
                     retryAction = { /*TODO*/},
                     onNextButtonClicked = {
                                             openWeatherViewModel.getOpenWeatherCurrent(
