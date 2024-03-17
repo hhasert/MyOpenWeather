@@ -54,36 +54,43 @@ fun WeatherScreen(
 @Composable
 fun CurrentWeatherScreen(
     openWeatherCurrent: OpenWeatherCurrent,
-    modifier: Modifier = Modifier,
+    modifier :Modifier =  Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
-) {
+) { Column ()
+    {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            WeatherInfo (openWeatherCurrent , modifier = modifier.height(128.dp))
+            WeatherInfo(openWeatherCurrent, modifier = modifier.height(128.dp))
             Spacer(modifier = Modifier.height(16.dp))
-
-            Text("Location : " + openWeatherCurrent.locationName)
-            Text("latitude : " + openWeatherCurrent.coordinates.latitude)
-            Text("longitude : " + openWeatherCurrent.coordinates.longitude)
-            Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
-            Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
-            Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
-            Text("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
-            Text(
-                "Time : " + DateTimeFormatter.ISO_INSTANT
-                    .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
-            )
+       }
+    Spacer(modifier = Modifier.height(32.dp))
+    Card (
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        )
+        {
+            Column(
+                modifier = modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Location : " + openWeatherCurrent.locationName)
+                Text("latitude : " + openWeatherCurrent.coordinates.latitude)
+                Text("longitude : " + openWeatherCurrent.coordinates.longitude)
+                Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
+                Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
+                Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
+                Text("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
+                Text("Time : " + DateTimeFormatter.ISO_INSTANT
+                        .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
+                )
+            }
         }
-    }
+   }
 }
 @Composable
 fun WeatherInfo (
