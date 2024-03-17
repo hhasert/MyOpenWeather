@@ -55,17 +55,19 @@ fun LocationScreen(
         ) {
             val lat = geolocations[0].latitude.toString()
             val lon = geolocations[0].longitude.toString()
-            val enName = geolocations[0].localNames.get("en").toString()
+
             Text ("Location retrieved from\n reverse GeoLocation API")
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-            Text (geolocations[0].name)
+            Text (geolocations[0].localNames.get("en").toString())
+            Text (geolocations[0].localNames.get("nl").toString())
+            Text (geolocations[0].localNames.get("fr").toString())
+            Text (geolocations[0].localNames.get("es").toString())
             Row(horizontalArrangement = Arrangement.Center,
                 modifier = modifier)
             {
                Text ( fontSize = 15.sp, text = "Latitude " + lat + "   ")
                Text ( fontSize = 15.sp, text = "Longiitude " + lon)
             }
-            Text (enName)
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_large)))
             Button(
                 modifier = Modifier. fillMaxWidth() .padding(dimensionResource(R.dimen.padding_medium)),
