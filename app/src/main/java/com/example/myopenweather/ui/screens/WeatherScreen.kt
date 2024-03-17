@@ -103,16 +103,17 @@ fun WeatherInfo (
         modifier = modifier,
     ) {
         Row(horizontalArrangement = Arrangement.Center,
-            modifier = modifier.padding(16.dp) )
+            modifier = modifier.padding(end=16.dp) )
         {
             WeatherIcon (openWeatherCurrent)
             Column(
-                verticalArrangement = Arrangement.Center
             ) {
+                Spacer (modifier = Modifier.height(10.dp))
                 Text( fontSize = 14.sp,
                       text = openWeatherCurrent.weatherCondition[0].description)
                 Spacer (modifier = Modifier.height(4.dp))
-                Text( fontSize = 14.sp,
+                Text(
+                      fontSize = 14.sp,
                       text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds")
             }
         }
@@ -123,7 +124,7 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                  modifier: Modifier = Modifier)
 {
     Surface(
-        modifier = modifier.size(64.dp, 64.dp )
+        modifier = modifier.padding(12.dp)
     )
     {
         AsyncImage(
@@ -131,10 +132,13 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                 "https://openweathermap.org/img/w/" + openWeatherCurrent.weatherCondition[0].icon + ".png"
             )
                 .crossfade(true).build(),
+
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img),
             contentDescription = stringResource(R.string.weathericon),
             contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(64.dp)
         )
     }
 }
