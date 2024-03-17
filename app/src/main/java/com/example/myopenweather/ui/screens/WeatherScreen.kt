@@ -65,7 +65,7 @@ fun CurrentWeatherScreen(
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-            WeatherInfo(openWeatherCurrent, modifier = modifier.height(128.dp))
+            WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp))
             Spacer(modifier = Modifier.height(16.dp))
        }
     Spacer(modifier = Modifier.height(32.dp))
@@ -86,7 +86,6 @@ fun CurrentWeatherScreen(
                 Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
                 Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
                 Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
-                Text("Temperature : " + openWeatherCurrent.weather.temperature + " Celcius")
                 Text("Time : " + DateTimeFormatter.ISO_INSTANT
                         .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
                 )
@@ -107,7 +106,8 @@ fun WeatherInfo (
         Row(horizontalArrangement = Arrangement.Center,
             modifier = modifier.padding(end=16.dp) )
         {
-            WeatherIcon (openWeatherCurrent)
+            WeatherIcon (openWeatherCurrent, modifier = Modifier
+                            .padding(22.dp))
             Column(
             ) {
                 Spacer (modifier = Modifier.height(10.dp))
@@ -117,6 +117,9 @@ fun WeatherInfo (
                 Text(
                       fontSize = 14.sp,
                       text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds")
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(fontSize = 20.sp,
+                    text = openWeatherCurrent.weather.temperature.toString() + " C")
             }
         }
     }
@@ -125,8 +128,7 @@ fun WeatherInfo (
 fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                  modifier: Modifier = Modifier)
 {
-    Surface(
-        modifier = modifier.padding(12.dp)
+    Surface( modifier = modifier.size(80.dp, 80.dp)
     )
     {
         AsyncImage(
@@ -140,7 +142,6 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             contentDescription = stringResource(R.string.weathericon),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(64.dp)
                 .background(Color.Transparent)
         )
     }
