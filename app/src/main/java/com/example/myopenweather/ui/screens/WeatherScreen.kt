@@ -66,11 +66,18 @@ fun CurrentWeatherScreen(
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp))
-        Row(horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Top,
-            modifier = Modifier.fillMaxWidth() .padding(8.dp)) {
-            Text( fontSize = 24.sp, text = openWeatherCurrent.weather.temperature.toString() + " C" )
+        Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth())
+        {
+            Text(openWeatherCurrent.locationName)
+        }
+       Row(horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth() .padding(start=12.dp) ) {
+            Text( fontSize = 28.sp, text = openWeatherCurrent.weather.temperature.toString() + " C" )
+            WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp) )
        }
     }
     Spacer(modifier = Modifier.height(32.dp))
@@ -86,7 +93,6 @@ fun CurrentWeatherScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Text( openWeatherCurrent.locationName)
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = modifier){
 
