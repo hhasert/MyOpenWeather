@@ -17,8 +17,6 @@ import com.example.myopenweather.data.OpenWeatherRepository
 import com.example.myopenweather.fusedLocationProviderClient
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -66,12 +64,12 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     /**
      * Call getGeoLocation() on init so we can display status immediately.
      */
-    var loc : Pair<Double, Double> = Pair( first = 52.069526, second = 4.406018 )
+
     init {
         getGeoLocation(uiState.value.currentLocation.name)
         getCurrentLocation(
-            { onGetCurrentLocationSuccess(location = loc) },
-            {}
+            { onGetCurrentLocationSuccess(it) },
+            { onGetLastLocationFailed(it) }
         )
     }
 
@@ -140,14 +138,19 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
 //            location.longitude = "4.406018"
             return (location)
     }
-    private fun onGetCurrentLocationSuccess (
-        location: Pair<Double, Double>,
-        )
+    private fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
     {
+        Log.d(TAG, "onGetCurrentLocation called")
+        Log.d(TAG, "latitude : " + location.first)
+        Log.d(TAG, "longitude : " + location.second)
         uiState.value.currentLocation.latitude = location.first.toString()
         uiState.value.currentLocation.longitude = location.second.toString()
-    }
 
+    }
+    private fun  onGetLastLocationFailed(e : Exception)
+    {
+        Log.d(TAG, "Exception getting location" + e.message)
+    }
     /**
      * Retrieves the current user location asynchronously.
      *
@@ -160,26 +163,22 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      */
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation(
-        onGetCurrentLocationSuccess: (Pair<Double, Double>) -> Unit,
-        onGetCurrentLocationFailed: (Exception) -> Unit,
-        priority: Boolean = true
+        onGetLastLocationSuccess: (Pair<Double, Double>) -> Unit,
+        onGetLastLocationFailed: (Exception) -> Unit
     ) {
-        // Determine the accuracy priority based on the 'priority' parameter
-        val accuracy = if (priority) Priority.PRIORITY_HIGH_ACCURACY
-        else Priority.PRIORITY_BALANCED_POWER_ACCURACY
-
-        // Check if location permissions are granted
-            fusedLocationProviderClient.getCurrentLocation(
-                accuracy, CancellationTokenSource().token,
-            ).addOnSuccessListener { location ->
-                location?.let {
-                    // If location is not null, invoke the success callback with latitude and longitude
-                    onGetCurrentLocationSuccess(Pair(it.latitude, it.longitude))
+            // Retrieve the last known location
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener { location ->
+                    location?.let {
+                        // If location is not null, invoke the success callback with latitude and longitude
+                        onGetLastLocationSuccess(Pair(it.latitude, it.longitude))
+                    }
                 }
-            }.addOnFailureListener { exception ->
-                // If an error occurs, invoke the failure callback with the exception
-                onGetCurrentLocationFailed(exception)
-       }
+                .addOnFailureListener { exception ->
+                    // If an error occurs, invoke the failure callback with the exception
+                    onGetLastLocationFailed(exception)
+                }
+
     }
      /**
      * Factory for [OpenWeatherViewModel] that takes [OpenWeatherRepository] as a dependency

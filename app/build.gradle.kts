@@ -91,7 +91,6 @@ dependencies {
 
     //Google Permissions
     implementation (libs.accompanist.permissions)
-
     testImplementation(libs.junit)
 
     testImplementation(libs.kotlinx.coroutines.test)
