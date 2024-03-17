@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,7 +57,7 @@ fun LocationScreen(
             val lon = geolocations[0].longitude.toString()
             val enName = geolocations[0].localNames.get("en").toString()
             Text ("Location retrieved from\n reverse GeoLocation API")
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_large)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
             Text (geolocations[0].name)
             Row(horizontalArrangement = Arrangement.Center,
                 modifier = modifier)
@@ -65,9 +66,9 @@ fun LocationScreen(
                Text ( fontSize = 15.sp, text = "Longiitude " + lon)
             }
             Text (enName)
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_large)))
             Button(
-                modifier = Modifier,
+                modifier = Modifier. fillMaxWidth() .padding(dimensionResource(R.dimen.padding_medium)),
                 // the button is enabled when the user makes a selection
                 onClick = onNextButtonClicked
             ){
