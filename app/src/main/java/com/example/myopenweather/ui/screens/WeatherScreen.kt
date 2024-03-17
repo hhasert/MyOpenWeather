@@ -150,7 +150,7 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
         )
     }
         Column() {
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Text(
                 fontSize = 14.sp,
                 text = openWeatherCurrent.weatherCondition[0].description
