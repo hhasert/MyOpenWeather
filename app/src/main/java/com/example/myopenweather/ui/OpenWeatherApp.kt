@@ -96,8 +96,6 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
         viewModel(factory = OpenWeatherViewModel.Factory)
     val uiState by openWeatherViewModel.uiState.collectAsState()
 
-    val context = LocalContext.current
-
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { OpenWeatherTopAppBar(
@@ -122,9 +120,7 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
         ) {
 
             composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
-                LocationPermissionScreen (
-                    { navController.navigate(MyOpenWeatherScreen.Location.name) }
-                )
+                LocationPermissionScreen { navController.navigate(MyOpenWeatherScreen.Location.name) }
             }
 
             composable(route = MyOpenWeatherScreen.Location.name) {
