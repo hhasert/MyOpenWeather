@@ -3,6 +3,7 @@ package com.example.myopenweather.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myopenweather.R
 import com.example.myopenweather.model.GeoLocation
 
@@ -53,9 +55,15 @@ fun LocationScreen(
             val lat = geolocations[0].latitude.toString()
             val lon = geolocations[0].longitude.toString()
             val enName = geolocations[0].localNames.get("en").toString()
+            Text ("Location retrieved from\n reverse GeoLocation API")
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_large)))
             Text (geolocations[0].name)
-            Text ("Latitude  " + lat)
-            Text ("Longiitude  " + lon)
+            Row(horizontalArrangement = Arrangement.Center,
+                modifier = modifier)
+            {
+               Text ( fontSize = 15.sp, text = "Latitude " + lat + "   ")
+               Text ( fontSize = 15.sp, text = "Longiitude " + lon)
+            }
             Text (enName)
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
             Button(
