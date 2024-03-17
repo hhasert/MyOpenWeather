@@ -85,15 +85,26 @@ fun CurrentWeatherScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Location : " + openWeatherCurrent.locationName)
-                Text("latitude : " + openWeatherCurrent.coordinates.latitude)
-                Text("longitude : " + openWeatherCurrent.coordinates.longitude)
-                Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
-                Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
-                Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
-                Text("Time : " + DateTimeFormatter.ISO_INSTANT
-                        .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
-                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text( openWeatherCurrent.locationName)
+                Row(horizontalArrangement = Arrangement.Center,
+                    modifier = modifier){
+
+                  Text("latitude : " + openWeatherCurrent.coordinates.latitude + "     ")
+                  Text("longitude : " + openWeatherCurrent.coordinates.longitude)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Column() {
+                    Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
+                    Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
+                    Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
+
+                    Text(
+                        "Time : " + DateTimeFormatter.ISO_INSTANT
+                            .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
    }
@@ -109,7 +120,7 @@ fun WeatherInfo (
         modifier = modifier,
     ) {
         Row(horizontalArrangement = Arrangement.Center,
-            modifier = modifier.padding(end=16.dp) )
+            modifier = modifier)
         {
             WeatherIcon (openWeatherCurrent, modifier = Modifier
                             .padding(22.dp))
@@ -118,7 +129,7 @@ fun WeatherInfo (
         }
         Row(horizontalArrangement = Arrangement.Center)
         {
-            Spacer(modifier = Modifier.height(0.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 fontSize = 20.sp,
                 text = openWeatherCurrent.weather.temperature.toString() + " C"
