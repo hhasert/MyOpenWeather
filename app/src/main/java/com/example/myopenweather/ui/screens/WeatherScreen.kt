@@ -61,13 +61,18 @@ fun CurrentWeatherScreen(
 ) { Column ()
     {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .align(Alignment.CenterHorizontally),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-            WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp))
-            Spacer(modifier = Modifier.height(16.dp))
+        WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp))
+        Row(horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Top,
+            modifier = Modifier.fillMaxWidth() .padding(8.dp)) {
+            Text( fontSize = 24.sp, text = openWeatherCurrent.weather.temperature.toString() + " C" )
        }
+    }
     Spacer(modifier = Modifier.height(32.dp))
     Card (
         modifier = modifier.fillMaxWidth(),
@@ -108,27 +113,26 @@ fun WeatherInfo (
         {
             WeatherIcon (openWeatherCurrent, modifier = Modifier
                             .padding(22.dp))
-            Column(
-            ) {
-                Spacer (modifier = Modifier.height(10.dp))
-                Text( fontSize = 14.sp,
-                      text = openWeatherCurrent.weatherCondition[0].description)
-                Spacer (modifier = Modifier.height(4.dp))
-                Text(
-                      fontSize = 14.sp,
-                      text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds")
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(fontSize = 20.sp,
-                    text = openWeatherCurrent.weather.temperature.toString() + " C")
-            }
+
+
+        }
+        Row(horizontalArrangement = Arrangement.Center)
+        {
+            Spacer(modifier = Modifier.height(0.dp))
+            Text(
+                fontSize = 20.sp,
+                text = openWeatherCurrent.weather.temperature.toString() + " C"
+            )
         }
     }
 }
 @Composable
 fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                  modifier: Modifier = Modifier)
-{
-    Surface( modifier = modifier.size(80.dp, 80.dp)
+{ Row(
+) {
+    Surface(
+        modifier = modifier.size(80.dp, 80.dp)
     )
     {
         AsyncImage(
@@ -145,4 +149,18 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                 .background(Color.Transparent)
         )
     }
+        Column() {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                fontSize = 14.sp,
+                text = openWeatherCurrent.weatherCondition[0].description
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                fontSize = 14.sp,
+                text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds"
+            )
+        }
+    }
 }
+
