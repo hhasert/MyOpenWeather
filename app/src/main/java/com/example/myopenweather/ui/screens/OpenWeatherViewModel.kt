@@ -97,9 +97,6 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     fun getGeoLocationByCoords( latitude : String, longitude:String) {
         viewModelScope.launch {
             geoLocationByCoordsUiState = GeoLocationByCoordsUiState.Loading
-            Log.d(TAG, "getGeoLocationByCoords called")
-            Log.d(TAG, "latitude : " + latitude)
-            Log.d(TAG, "latitude : " + longitude)
             geoLocationByCoordsUiState = try {
                 GeoLocationByCoordsUiState.Success(openWeatherRepository.getGeoLocationByCoords(
                     latitude,
