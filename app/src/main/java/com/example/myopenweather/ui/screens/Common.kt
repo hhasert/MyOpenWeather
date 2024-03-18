@@ -52,13 +52,13 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 @RequiresApi(Build.VERSION_CODES.Q)
 fun epochConvertToDate (epoch: Long ) : String
 {
-    return (LocalDate.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
-        , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
+    return (LocalDate.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
 }
 @RequiresApi(Build.VERSION_CODES.Q)
 fun epochConvertToTime ( epoch : Long ) : String
 {
-    return(LocalTime.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
-        , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
+    return(LocalTime.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
+           DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
 }
 
