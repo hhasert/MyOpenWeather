@@ -60,6 +60,5 @@ fun epochConvertToTime ( epoch : Long ) : String
 {
     return(LocalTime.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
         , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
-
 }
 
