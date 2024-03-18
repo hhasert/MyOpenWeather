@@ -30,6 +30,8 @@ import coil.request.ImageRequest
 import com.example.myopenweather.R
 import com.example.myopenweather.model.OpenWeatherCurrent
 import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -49,13 +51,14 @@ fun WeatherScreen(
         is OpenWeatherCurrentUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun CurrentWeatherScreen(
     openWeatherCurrent: OpenWeatherCurrent,
     modifier :Modifier =  Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
-) { Column ()
+) {
+    Column ()
     {
     Card(
         modifier = modifier.fillMaxWidth()
@@ -102,10 +105,11 @@ fun CurrentWeatherScreen(
                     Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
                     Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
                     Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
-
                     Text(
-                        "Time : " + DateTimeFormatter.ISO_INSTANT
-                            .format(Instant.ofEpochSecond(openWeatherCurrent.datetime))
+                        "Date : " +  DateTimeConvertToDate(openWeatherCurrent.datetime)
+                    )
+                    Text(
+                        "Time : " + DateTimeConvertToTime(openWeatherCurrent.datetime)
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -123,7 +127,6 @@ fun WeatherInfo (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,)
         {
-//            Spacer(modifier = Modifier.height(20.dp))
             Text(
                 fontSize = 14.sp,
                 text = openWeatherCurrent.weatherCondition[0].description
@@ -153,5 +156,21 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             modifier = modifier.size(80.dp, 80.dp)
         )
     }
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+fun DateTimeConvertToDate (epoch: Long ) : String
+{
+  val dateTime =  DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
+  val date = LocalDate.parse(dateTime
+          ,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+    return (date.toString())
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+fun DateTimeConvertToTime ( epoch : Long ) : String
+{
+    val dateTime =  DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
+    val time = LocalTime.parse(dateTime
+        ,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+    return (time.toString())
 }
 

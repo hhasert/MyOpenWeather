@@ -133,7 +133,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             location.longitude = "-73.984840"
             return (location)
     }
-    fun initCurrentLocation() {
+     fun initCurrentLocation() {
         getCurrentLocation(
             { onGetCurrentLocationSuccess(it) },
             { onGetLastLocationFailed(it) }
@@ -159,15 +159,15 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      *        It provides a Pair representing latitude and longitude.
      * @param onGetCurrentLocationFailed Callback function invoked when an error occurs while retrieving the current location.
      *        It provides the Exception that occurred.
-     * @param priority Indicates the desired accuracy of the location retrieval. Default is high accuracy.
-     *        If set to false, it uses balanced power accuracy.
      */
+
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation(
         onGetLastLocationSuccess: (Pair<Double, Double>) -> Unit,
         onGetLastLocationFailed: (Exception) -> Unit
     ) {
-            // Retrieve the last known location
+        // Check if location permissions are granted
+        // Retrieve the last known location
             fusedLocationProviderClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.let {
@@ -179,8 +179,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
                     // If an error occurs, invoke the failure callback with the exception
                     onGetLastLocationFailed(exception)
                 }
-
-    }
+     }
      /**
      * Factory for [OpenWeatherViewModel] that takes [OpenWeatherRepository] as a dependency
      */
