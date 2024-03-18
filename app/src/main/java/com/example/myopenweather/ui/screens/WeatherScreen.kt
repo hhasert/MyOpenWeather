@@ -221,7 +221,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
        Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
            text = epochConvertToTime(openWeatherForecast[index].datetime).toString(),
            modifier = Modifier.fillMaxWidth())
-       WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(64.dp, 64.dp) .padding(start=10.dp))
+       WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(64.dp, 64.dp) )
        Text(textAlign = TextAlign.Center,
             text = openWeatherForecast[index].weather.temperature.roundToInt().toString() + " \u2103",
             modifier = Modifier.fillMaxWidth() )
