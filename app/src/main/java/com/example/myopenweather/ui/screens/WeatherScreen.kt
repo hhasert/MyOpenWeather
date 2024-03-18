@@ -72,8 +72,8 @@ fun CurrentWeatherScreen(
         }
        Row(horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth() .padding(start = 2.dp, end = 32.dp) ) {
-            Text( style = MaterialTheme.typography.displayLarge, text = openWeatherCurrent.weather.temperature.toString() + " C" )
+            modifier = Modifier.fillMaxWidth() .padding(start = 2.dp, end = 2.dp) ) {
+            Text( style = MaterialTheme.typography.displayLarge, text = openWeatherCurrent.weather.temperature.toString() + " \u2103" )
             WeatherIcon(openWeatherCurrent, modifier = Modifier)
             WeatherInfo(openWeatherCurrent, modifier = Modifier)
        }
