@@ -151,24 +151,24 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
     Column ()
     {
         Row  (){
-            Text("Weather :",modifier.padding(end=44.dp))
-            Text(openWeatherCurrent.weatherCondition[0].summary)
+            Text("Weather",modifier.padding(end=44.dp))
+            Text(": " + openWeatherCurrent.weatherCondition[0].summary)
         }
         Row {
-            Text("Wind Speed : ",modifier.padding(end=16.dp))
-            Text(text = ""+ openWeatherCurrent.wind.speed + "m/s")
+            Text("Wind Speed",modifier.padding(end=19.dp))
+            Text(text = ": " + openWeatherCurrent.wind.speed + "m/s")
         }
         Row {
-            Text("Wind Direction : ")
-            Text("" + openWeatherCurrent.wind.direction + " deg")
+            Text("Wind Direction",modifier.padding(end=2.dp))
+            Text(": " + openWeatherCurrent.wind.direction + " deg")
         }
         Row {
-            Text("Date : ",modifier.padding(end=66.dp))
-            Text(text = epochConvertToDate(openWeatherCurrent.datetime))
+            Text("Date",modifier.padding(end=70.dp))
+            Text(text = ": " + epochConvertToDate(openWeatherCurrent.datetime))
         }
         Row {
-            Text("Time : ",modifier.padding(end=64.dp))
-            Text(text = epochConvertToTime(openWeatherCurrent.datetime))
+            Text("Time",modifier.padding(end=68.dp))
+            Text(text = ": " + epochConvertToTime(openWeatherCurrent.datetime))
         }
     }
 }
