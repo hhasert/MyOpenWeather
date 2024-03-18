@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -145,10 +144,7 @@ fun WeatherInfo (
 fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
                  modifier: Modifier = Modifier)
 { Row {
-    Surface(
-        modifier = modifier.size(80.dp, 80.dp)
-    )
-    {
+
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(
                 "https://openweathermap.org/img/w/" + openWeatherCurrent.weatherCondition[0].icon + ".png"
@@ -158,10 +154,10 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img),
             contentDescription = stringResource(R.string.weathericon),
-            contentScale = ContentScale.Crop,
-            modifier = modifier
+            contentScale = ContentScale.FillBounds ,
+            modifier = modifier.size(80.dp. 80.dp)
         )
-    }
+
         Column {
             Spacer(modifier = Modifier.height(20.dp))
             Text(
