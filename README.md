@@ -9,3 +9,4 @@ The project contains a secret.properties file containing the API Key from https:
 First steps are there, there is a navhost controller to support multiple screens and a viewmodel/repository etc according to the architecture in the courses. 
 
 Location should work now, initialized in the view model
+It includes the API for current weather and a 5 day by 3 hour forecast 
