@@ -58,10 +58,7 @@ fun LocationScreen(
 
             Text ("Location retrieved from\n reverse GeoLocation API")
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-            Text (geolocations[0].localNames["en"].toString())
-            Text (geolocations[0].localNames["nl"].toString())
-            Text (geolocations[0].localNames["fr"].toString())
-            Text (geolocations[0].localNames["es"].toString())
+            Text (geolocations[0].localNames["en"].toString() ?: " ")
             Row(horizontalArrangement = Arrangement.Center,
                 modifier = modifier)
             {

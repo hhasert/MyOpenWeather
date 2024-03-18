@@ -56,7 +56,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(GeoLocationByCoordsUiState.Loading)
         private set
 
-    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setCurrentLocation()))
+    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation()))
     val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
     // Go to https://openweathermap.org/api , create an account and get an API Key
@@ -66,15 +66,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
      */
 
     init {
-//      getGeoLocation(uiState.value.currentLocation.name)
-        getCurrentLocation(
-            { onGetCurrentLocationSuccess(it) },
-            { onGetLastLocationFailed(it) }
-        )
-        getGeoLocationByCoords (
-            uiState.value.currentLocation.latitude,
-            uiState.value.currentLocation.longitude
-        )
+        initCurrentLocation()
     }
 
     fun getGeoLocation( name : String) {
@@ -133,18 +125,28 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         }
     }
     //Prefill location data, will be overwritten by calls to get the location
-    private fun setCurrentLocation() : LocationData {
+    private fun setDummyLocation() : LocationData {
             val location = LocationData()
             location.id = "current"
-            location.name = "Den Haag"
-            location.latitude = "52.069526"
-            location.longitude = "4.406018"
+            location.name = "New York"
+            location.latitude = ""
+            location.longitude = ""
             return (location)
+    }
+    fun initCurrentLocation() {
+        getCurrentLocation(
+            { onGetCurrentLocationSuccess(it) },
+            { onGetLastLocationFailed(it) }
+        )
     }
     private fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
     {
         uiState.value.currentLocation.latitude = location.first.toString()
         uiState.value.currentLocation.longitude = location.second.toString()
+        getGeoLocationByCoords (
+            uiState.value.currentLocation.latitude,
+            uiState.value.currentLocation.longitude
+        )
     }
     private fun  onGetLastLocationFailed(e : Exception)
     {
