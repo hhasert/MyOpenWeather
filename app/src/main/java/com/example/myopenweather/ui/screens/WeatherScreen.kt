@@ -29,10 +29,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myopenweather.R
 import com.example.myopenweather.model.OpenWeatherCurrent
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -106,10 +102,10 @@ fun CurrentWeatherScreen(
                     Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
                     Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
                     Text(
-                        "Date : " +  DateTimeConvertToDate(openWeatherCurrent.datetime)
+                        "Date : " +  epochConvertToDate(openWeatherCurrent.datetime)
                     )
                     Text(
-                        "Time : " + DateTimeConvertToTime(openWeatherCurrent.datetime)
+                        "Time : " + epochConvertToTime(openWeatherCurrent.datetime)
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -157,20 +153,3 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
         )
     }
 }
-@RequiresApi(Build.VERSION_CODES.Q)
-fun DateTimeConvertToDate (epoch: Long ) : String
-{
-  val dateTime =  DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
-  val date = LocalDate.parse(dateTime
-          ,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
-    return (date.toString())
-}
-@RequiresApi(Build.VERSION_CODES.Q)
-fun DateTimeConvertToTime ( epoch : Long ) : String
-{
-    val dateTime =  DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch))
-    val time = LocalTime.parse(dateTime
-        ,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
-    return (time.toString())
-}
-
