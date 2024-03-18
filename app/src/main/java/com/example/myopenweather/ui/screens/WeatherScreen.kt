@@ -157,12 +157,12 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
             Text("Date",modifier.padding(end=70.dp))
             Text("Time",modifier.padding(end=68.dp))
         }
-        Column (modifier.padding(end=4.dp)){
-            Text(": ")
-            Text(": ")
-            Text(": ")
-            Text(": ")
-            Text(": ")
+        Column (modifier.padding(end=8.dp)){
+            Text(":")
+            Text(":")
+            Text(":")
+            Text(":")
+            Text(":")
         }
         Column(){
             Text(openWeatherCurrent.weatherCondition[0].summary)
