@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -134,7 +135,7 @@ fun WeatherInfo (
         {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                fontSize = 20.sp,
+                fontSize = 20.sp, fontWeight = FontWeight.Bold,
                 text = openWeatherCurrent.weather.temperature.toString() + " C"
             )
         }
