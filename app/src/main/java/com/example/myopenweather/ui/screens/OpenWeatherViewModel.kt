@@ -129,8 +129,8 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             val location = LocationData()
             location.id = "current"
             location.name = "New York"
-            location.latitude = ""
-            location.longitude = ""
+            location.latitude = "40.748096"
+            location.longitude = "-73.984840"
             return (location)
     }
     fun initCurrentLocation() {
