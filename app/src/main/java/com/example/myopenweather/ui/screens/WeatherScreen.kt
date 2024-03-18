@@ -155,7 +155,7 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             placeholder = painterResource(R.drawable.loading_img),
             contentDescription = stringResource(R.string.weathericon),
             contentScale = ContentScale.FillBounds ,
-            modifier = modifier.size(80.dp. 80.dp)
+            modifier = modifier.size(80.dp, 80.dp)
         )
 
         Column {

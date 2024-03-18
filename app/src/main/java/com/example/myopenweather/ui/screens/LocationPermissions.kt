@@ -52,7 +52,7 @@ fun PermissionRequestButton(isGranted: Boolean, title: String, onClick: () -> Un
             Text(text = title, modifier = Modifier.background(Color.Transparent))
         }
     } else {
-        Button(onClick = onClick) {
+        Button(onClick = onClick, modifier = Modifier.fillMaxWidth()  .padding(16.dp) ) {
             Text("Request $title")
         }
     }
