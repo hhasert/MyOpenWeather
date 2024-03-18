@@ -35,7 +35,6 @@ data class OpenWeatherForecast(
     val city : City,
 )
 
-
 // See https://openweathermap.org/api/geocoding-api for the API definition
 @Serializable
 data class GeoLocation(

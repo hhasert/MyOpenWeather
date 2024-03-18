@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,13 +24,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myopenweather.R
+import com.example.myopenweather.model.ForecastData
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.model.OpenWeatherForecast
+import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -76,7 +80,8 @@ fun CurrentWeatherScreen(
     Column ()
     {
     Card(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .align(Alignment.CenterHorizontally),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -84,15 +89,19 @@ fun CurrentWeatherScreen(
         Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth() .padding(top = 8.dp))
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp))
         {
             Text(style = MaterialTheme.typography.displayMedium, text = openWeatherCurrent.locationName)
         }
        Row(horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth() .padding(start = 2.dp, end = 2.dp) ) {
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 2.dp, end = 2.dp) ) {
             Text( style = MaterialTheme.typography.displayLarge, text = openWeatherCurrent.weather.temperature.toString() + " \u2103" )
-            WeatherIcon(openWeatherCurrent, modifier = Modifier)
+            WeatherIcon(openWeatherCurrent.weatherCondition[0].icon, modifier = Modifier.size(80.dp, 80.dp))
             WeatherInfo(openWeatherCurrent, modifier = Modifier)
        }
     }
@@ -120,6 +129,12 @@ fun CurrentWeatherScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
+        Spacer(modifier = Modifier.height(32.dp))
+        Card (
+            modifier = modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium,
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        ){ WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = Modifier )}
    }
 }
 @Composable
@@ -144,16 +159,14 @@ fun WeatherInfo (
         }
 }
 @Composable
-fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
-                 modifier: Modifier = Modifier)
+fun WeatherIcon( icon : String,
+                 modifier: Modifier)
 { Row {
-
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(
-                "https://openweathermap.org/img/w/" + openWeatherCurrent.weatherCondition[0].icon + ".png"
+                "https://openweathermap.org/img/w/" + icon + ".png"
             )
                 .crossfade(true).build(),
-
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img),
             contentDescription = stringResource(R.string.weathericon),
@@ -189,6 +202,35 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
             Text("" +  openWeatherCurrent.wind.direction + " deg")
             Text(text = epochConvertToDate(openWeatherCurrent.datetime))
             Text(text = epochConvertToTime(openWeatherCurrent.datetime))
+        }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
+{
+   Card (
+       modifier = Modifier
+           .size(width = 64.dp, height = 100.dp)
+
+    ) {
+       Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,text = epochConvertToTime(openWeatherForecast[index].datetime))
+       WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(48.dp, 48.dp) )
+       Text(textAlign = TextAlign.Center,text = ""+ openWeatherForecast[index].weather.temperature.roundToInt() + " \u2103")
+    }
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifier)
+{
+    LazyRow(
+        modifier = modifier.padding(horizontal = 4.dp)
+            .fillMaxWidth()
+    )
+    {
+        items(openWeatherForecast.count)
+        {
+            ForecastItem (it, openWeatherForecast.forecast)
         }
     }
 }
