@@ -2,6 +2,7 @@ package com.example.myopenweather.data
 
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
+import com.example.myopenweather.model.OpenWeatherForecast
 import com.example.myopenweather.network.OpenWeatherApiService
 
 /**
@@ -15,6 +16,13 @@ interface OpenWeatherRepository {
         units : String,
         language : String,
         apiKey: String ): OpenWeatherCurrent
+
+    suspend fun getOpenWeatherForecast(
+        latitude: String,
+        longitude: String,
+        units : String,
+        language : String,
+        apiKey: String ): OpenWeatherForecast
     suspend fun getGeoLocation(
         cityName: String,
         apiKey: String ): List <GeoLocation>
@@ -38,6 +46,13 @@ class NetworkOpenWeatherRepository(
         language: String,
         apiKey: String
     ): OpenWeatherCurrent = openWeatherApiService.getOpenWeatherCurrent( latitude, longitude, units, language, apiKey )
+    override suspend fun getOpenWeatherForecast(
+        latitude:String,
+        longitude:String,
+        units : String,
+        language: String,
+        apiKey: String
+    ): OpenWeatherForecast = openWeatherApiService.getOpenWeatherForecast( latitude, longitude, units, language, apiKey )
     override suspend fun getGeoLocation(
         cityName : String,
         apiKey : String

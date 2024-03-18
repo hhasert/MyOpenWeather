@@ -26,6 +26,15 @@ data class OpenWeatherCurrent(
    @SerialName(value = "dt")
     val datetime : Long,
 )
+@Serializable
+data class OpenWeatherForecast(
+    @SerialName(value = "cnt")
+    val count: Int,
+    @SerialName(value = "list")
+    val forecast : List <ForecastData>,
+    val city : City,
+)
+
 
 // See https://openweathermap.org/api/geocoding-api for teh API definition
 @Serializable
@@ -101,4 +110,40 @@ data class Clouds(
 data class Sun (
     val sunrise : Long,
     val sunset  : Long,
+)
+@Serializable
+data class PartOfDay(
+    @SerialName(value = "pod")
+    val dayOrNight: String
+)
+@Serializable
+data class City(
+    val id: String,
+    val name: String,
+    @SerialName(value = "coord")
+    val coordinates : Coordinates,
+    val country : String,
+    val population : String,
+    val timezone : String,
+    val sunrise : String,
+    val sunset : String,
+)
+@Serializable
+data class ForecastData (
+    @SerialName(value = "dt")
+    val datetime : Long,
+    @SerialName(value = "main")
+    val weather : Weather,
+    @SerialName(value = "weather")
+    val weatherCondition : List <WeatherCondition>,
+    val clouds : Clouds,
+    @SerialName(value = "wind")
+    val wind  : Wind,
+    val visibility : Int,
+    @SerialName(value = "pop")
+    val precipitationProbability : Double,
+    val rain : RainOrSnow? = null,
+    val snow : RainOrSnow? = null,
+    @SerialName(value = "sys")
+    val partOfDay : PartOfDay,
 )

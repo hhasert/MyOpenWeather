@@ -17,6 +17,7 @@ import com.example.myopenweather.data.OpenWeatherRepository
 import com.example.myopenweather.fusedLocationProviderClient
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
+import com.example.myopenweather.model.OpenWeatherForecast
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +44,11 @@ sealed interface OpenWeatherCurrentUiState {
     data object Error : OpenWeatherCurrentUiState
     data object Loading : OpenWeatherCurrentUiState
 }
+sealed interface OpenWeatherForecastUiState {
+    data class Success(val openWeatherForecast: OpenWeatherForecast) : OpenWeatherForecastUiState
+    data object Error : OpenWeatherForecastUiState
+    data object Loading : OpenWeatherForecastUiState
+}
 
 data class LocationUiState (
     var currentLocation: LocationData
@@ -51,12 +57,14 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     /** The mutable State that stores the status of the most recent request */
     var openWeatherCurrentUiState: OpenWeatherCurrentUiState by mutableStateOf(OpenWeatherCurrentUiState.Loading)
         private set
+    var openWeatherForecastUiState: OpenWeatherForecastUiState by mutableStateOf(OpenWeatherForecastUiState.Loading)
+        private set
     var geoLocationUiState: GeoLocationUiState by mutableStateOf(GeoLocationUiState.Loading)
         private set
     var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(GeoLocationByCoordsUiState.Loading)
         private set
 
-    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation()))
+    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation() ) )
     val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
     // Go to https://openweathermap.org/api , create an account and get an API Key
@@ -108,12 +116,13 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         viewModelScope.launch {
             openWeatherCurrentUiState = OpenWeatherCurrentUiState.Loading
             openWeatherCurrentUiState = try {
-                OpenWeatherCurrentUiState.Success(openWeatherRepository.getOpenWeatherCurrent(
-                    latitude,
-                    longitude,
-                    units,
-                    language,
-                    apiKey
+                OpenWeatherCurrentUiState.Success(
+                    openWeatherRepository.getOpenWeatherCurrent(
+                        latitude,
+                        longitude,
+                        units,
+                        language,
+                        apiKey
                     )
                 )
             } catch (e: IOException) {
@@ -124,6 +133,26 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             }
         }
     }
+        fun getOpenWeatherForecast( latitude : String, longitude:String, units : String, language : String) {
+            viewModelScope.launch {
+                openWeatherForecastUiState = OpenWeatherForecastUiState.Loading
+                openWeatherForecastUiState = try {
+                    OpenWeatherForecastUiState.Success(openWeatherRepository.getOpenWeatherForecast(
+                        latitude,
+                        longitude,
+                        units,
+                        language,
+                        apiKey
+                        )
+                    )
+                } catch (e: IOException) {
+                    OpenWeatherForecastUiState.Error
+                } catch (e: HttpException) {
+                    Log.e(TAG, "ERROR: getOpenWeatherCurrent - HttpException : " + e.message())
+                    OpenWeatherForecastUiState.Error
+                }
+            }
+    }
     //Prefill location data, will be overwritten by calls to get the location
     private fun setDummyLocation() : LocationData {
             val location = LocationData()
@@ -133,13 +162,13 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             location.longitude = "-73.984840"
             return (location)
     }
-     fun initCurrentLocation() {
+     private fun initCurrentLocation() {
         getCurrentLocation(
             { onGetCurrentLocationSuccess(it) },
             { onGetLastLocationFailed(it) }
         )
     }
-    private fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
+    fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
     {
         uiState.value.currentLocation.latitude = location.first.toString()
         uiState.value.currentLocation.longitude = location.second.toString()
@@ -148,7 +177,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             uiState.value.currentLocation.longitude
         )
     }
-    private fun  onGetLastLocationFailed(e : Exception)
+    fun  onGetLastLocationFailed(e : Exception)
     {
         Log.d(TAG, "Exception getting location" + e.message)
     }

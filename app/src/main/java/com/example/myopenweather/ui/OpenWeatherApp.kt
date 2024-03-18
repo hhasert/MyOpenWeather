@@ -129,14 +129,18 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                     retryAction = { /*TODO Should call the viewmodel to get location again*/},
                     onNextButtonClicked = {
                                             openWeatherViewModel.getOpenWeatherCurrent(
-                                            latitude = uiState.currentLocation.latitude,
-                                            longitude = uiState.currentLocation.longitude,
-                                            units = "metric",
-                                            language = "en")
+                                                latitude = uiState.currentLocation.latitude,
+                                                longitude = uiState.currentLocation.longitude,
+                                                units = "metric",
+                                                language = "en")
+                                            openWeatherViewModel.getOpenWeatherForecast(
+                                                latitude = uiState.currentLocation.latitude,
+                                                longitude = uiState.currentLocation.longitude,
+                                                units = "metric",
+                                                language = "en")
                                             navController.navigate(MyOpenWeatherScreen.Weather.name)
-                                          },
-
-                    modifier = Modifier
+                                           },
+                        modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
                 )
@@ -144,6 +148,7 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
             composable(route = MyOpenWeatherScreen.Weather.name) {
                 WeatherScreen(
                     openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
+                    openWeatherForecastUiState = openWeatherViewModel.openWeatherForecastUiState,
                     retryAction = { /*TODO*/ },
                     onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Weather.name) },
                     modifier = Modifier.fillMaxHeight()

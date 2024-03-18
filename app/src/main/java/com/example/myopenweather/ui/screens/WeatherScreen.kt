@@ -29,11 +29,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myopenweather.R
 import com.example.myopenweather.model.OpenWeatherCurrent
+import com.example.myopenweather.model.OpenWeatherForecast
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun WeatherScreen(
     openWeatherCurrentUiState: OpenWeatherCurrentUiState,
+    openWeatherForecastUiState : OpenWeatherForecastUiState,
     retryAction: () -> Unit,
     onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -41,16 +43,33 @@ fun WeatherScreen(
 ) {
     when (openWeatherCurrentUiState) {
         is OpenWeatherCurrentUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is OpenWeatherCurrentUiState.Success -> CurrentWeatherScreen(
-            openWeatherCurrentUiState.openWeatherCurrent, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
-        )
-        is OpenWeatherCurrentUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
+        is OpenWeatherCurrentUiState.Success -> {
+            when (openWeatherForecastUiState) {
+                is OpenWeatherForecastUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+                is OpenWeatherForecastUiState.Success -> CurrentWeatherScreen(
+                    openWeatherCurrentUiState.openWeatherCurrent,
+                    openWeatherForecastUiState.openWeatherForecast,
+                    contentPadding = contentPadding,
+                    modifier = modifier.fillMaxWidth()
+                )
+                is OpenWeatherForecastUiState.Error -> ErrorScreen(
+                    retryAction,
+                    modifier = modifier.fillMaxSize()
+                )
+            }
+        }
+            is OpenWeatherCurrentUiState.Error -> ErrorScreen(
+            retryAction,
+            modifier = modifier.fillMaxSize()
+            )
+        }
     }
-}
+
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun CurrentWeatherScreen(
     openWeatherCurrent: OpenWeatherCurrent,
+    openWeatherForecast: OpenWeatherForecast,
     modifier :Modifier =  Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
 ) {
