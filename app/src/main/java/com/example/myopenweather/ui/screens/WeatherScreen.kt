@@ -97,13 +97,7 @@ fun CurrentWeatherScreen(
                   Text("longitude : " + openWeatherCurrent.coordinates.longitude)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Column {
-                    Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
-                    Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
-                    Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
-                    Text("Date : " +  epochConvertToDate(openWeatherCurrent.datetime) )
-                    Text("Time : " + epochConvertToTime(openWeatherCurrent.datetime) )
-                }
+                WeatherDetails( openWeatherCurrent)
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
@@ -147,5 +141,34 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             contentScale = ContentScale.FillBounds ,
             modifier = modifier.size(80.dp, 80.dp)
         )
+    }
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
+                     modifier: Modifier = Modifier)
+{
+    Column ()
+    {
+        Row  (){
+            Text("Weather :",modifier.padding(end=44.dp))
+            Text(openWeatherCurrent.weatherCondition[0].summary)
+        }
+        Row {
+            Text("Wind Speed : ",modifier.padding(end=16.dp))
+            Text(text = ""+ openWeatherCurrent.wind.speed + "m/s")
+        }
+        Row {
+            Text("Wind Direction : ")
+            Text("" + openWeatherCurrent.wind.direction + " deg")
+        }
+        Row {
+            Text("Date : ",modifier.padding(end=66.dp))
+            Text(text = epochConvertToDate(openWeatherCurrent.datetime))
+        }
+        Row {
+            Text("Time : ",modifier.padding(end=64.dp))
+            Text(text = epochConvertToTime(openWeatherCurrent.datetime))
+        }
     }
 }
