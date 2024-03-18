@@ -101,12 +101,8 @@ fun CurrentWeatherScreen(
                     Text("Weather : " + openWeatherCurrent.weatherCondition[0].summary)
                     Text("Wind Speed : " + openWeatherCurrent.wind.speed + " m/s")
                     Text("Wind Direction : " + openWeatherCurrent.wind.direction + " deg")
-                    Text(
-                        "Date : " +  epochConvertToDate(openWeatherCurrent.datetime)
-                    )
-                    Text(
-                        "Time : " + epochConvertToTime(openWeatherCurrent.datetime)
-                    )
+                    Text("Date : " +  epochConvertToDate(openWeatherCurrent.datetime) )
+                    Text("Time : " + epochConvertToTime(openWeatherCurrent.datetime) )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
