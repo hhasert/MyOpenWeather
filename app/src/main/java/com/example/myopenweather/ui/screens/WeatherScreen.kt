@@ -33,6 +33,7 @@ import com.example.myopenweather.R
 import com.example.myopenweather.model.ForecastData
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.model.OpenWeatherForecast
+import java.time.LocalDate
 import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -161,20 +162,18 @@ fun WeatherInfo (
 @Composable
 fun WeatherIcon( icon : String,
                  modifier: Modifier)
-{ Row {
-        AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current).data(
+{   AsyncImage(
+                model = ImageRequest.Builder(context = LocalContext.current).data(
                 "https://openweathermap.org/img/w/" + icon + ".png"
-            )
-                .crossfade(true).build(),
-            error = painterResource(R.drawable.ic_broken_image),
-            placeholder = painterResource(R.drawable.loading_img),
-            contentDescription = stringResource(R.string.weathericon),
-            contentScale = ContentScale.FillBounds ,
-            modifier = modifier.size(80.dp, 80.dp)
+                 )
+                 .crossfade(true).build(),
+                 error = painterResource(R.drawable.ic_broken_image),
+                 placeholder = painterResource(R.drawable.loading_img),
+                 contentDescription = stringResource(R.string.weathericon),
+                 contentScale = ContentScale.FillBounds ,
+                 modifier = modifier.size(80.dp, 80.dp)
         )
-    }
-}
+ }
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
@@ -200,8 +199,8 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
             Text(openWeatherCurrent.weatherCondition[0].summary)
             Text(""+ openWeatherCurrent.wind.speed + "m/s")
             Text("" +  openWeatherCurrent.wind.direction + " deg")
-            Text(text = epochConvertToDate(openWeatherCurrent.datetime))
-            Text(text = epochConvertToTime(openWeatherCurrent.datetime))
+            Text(text = epochConvertToDate(openWeatherCurrent.datetime).toString())
+            Text(text = epochConvertToTime(openWeatherCurrent.datetime).toString())
         }
     }
 }
@@ -209,15 +208,28 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
 @Composable
 fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
 {
+    val date : LocalDate = epochConvertToDate(openWeatherForecast[index].datetime)
    Card (
        modifier = Modifier
-           .size(width = 64.dp, height = 100.dp)
-
+           .size(width = 64.dp, height = 170.dp)
+           .fillMaxWidth()
     ) {
-       Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,text = epochConvertToTime(openWeatherForecast[index].datetime))
-       WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(48.dp, 48.dp) )
-       Text(textAlign = TextAlign.Center,text = ""+ openWeatherForecast[index].weather.temperature.roundToInt() + " \u2103")
-    }
+       Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
+           text = date.dayOfMonth.toString() + "-" + date.monthValue,
+           modifier = Modifier.fillMaxWidth())
+       Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
+           text = epochConvertToTime(openWeatherForecast[index].datetime).toString(),
+           modifier = Modifier.fillMaxWidth())
+       WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(64.dp, 64.dp) .padding(start=10.dp))
+       Text(textAlign = TextAlign.Center,
+            text = openWeatherForecast[index].weather.temperature.roundToInt().toString() + " \u2103",
+            modifier = Modifier.fillMaxWidth() )
+       Spacer(modifier = Modifier.height(6.dp))
+       Text(textAlign = TextAlign.Center, text ="rain", modifier = Modifier.fillMaxWidth())
+       Text(textAlign = TextAlign.Center, text = "" + (openWeatherForecast[index].precipitationProbability * 100).roundToInt() + " %",
+               modifier = Modifier.fillMaxWidth()
+            )
+       }
 }
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable

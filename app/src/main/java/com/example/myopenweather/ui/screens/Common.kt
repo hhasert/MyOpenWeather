@@ -50,15 +50,15 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 @RequiresApi(Build.VERSION_CODES.Q)
-fun epochConvertToDate (epoch: Long ) : String
+fun epochConvertToDate (epoch: Long ) : LocalDate
 {
     return (LocalDate.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
 }
 @RequiresApi(Build.VERSION_CODES.Q)
-fun epochConvertToTime ( epoch : Long ) : String
+fun epochConvertToTime ( epoch : Long ) : LocalTime
 {
     return(LocalTime.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
-           DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).toString())
+           DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
 }
 
