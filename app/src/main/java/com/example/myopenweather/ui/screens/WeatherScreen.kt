@@ -211,9 +211,10 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
     val date : LocalDate = epochConvertToDate(openWeatherForecast[index].datetime)
    Card (
        modifier = Modifier
-           .size(width = 64.dp, height = 170.dp)
+           .size(width = 64.dp, height = 180.dp)
            .fillMaxWidth()
     ) {
+       Spacer(modifier = Modifier.height(8.dp))
        Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
            text = date.dayOfMonth.toString() + "-" + date.monthValue,
            modifier = Modifier.fillMaxWidth())
