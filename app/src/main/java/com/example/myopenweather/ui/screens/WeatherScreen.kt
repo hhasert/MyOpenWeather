@@ -23,7 +23,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -67,15 +66,16 @@ fun CurrentWeatherScreen(
         Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth())
+        modifier = Modifier.fillMaxWidth() .padding(top = 8.dp))
         {
-            Text(openWeatherCurrent.locationName)
+            Text(style = MaterialTheme.typography.displayMedium, text = openWeatherCurrent.locationName)
         }
-       Row(horizontalArrangement = Arrangement.Center,
+       Row(horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth() .padding(start=12.dp) ) {
-            Text( fontSize = 28.sp, text = openWeatherCurrent.weather.temperature.toString() + " C" )
-            WeatherInfo(openWeatherCurrent, modifier = modifier.height(100.dp) )
+            modifier = Modifier.fillMaxWidth() .padding(start = 2.dp, end = 32.dp) ) {
+            Text( style = MaterialTheme.typography.displayLarge, text = openWeatherCurrent.weather.temperature.toString() + " C" )
+            WeatherIcon(openWeatherCurrent, modifier = Modifier)
+            WeatherInfo(openWeatherCurrent, modifier = Modifier)
        }
     }
     Spacer(modifier = Modifier.height(32.dp))
@@ -121,25 +121,19 @@ fun WeatherInfo (
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        Row(horizontalArrangement = Arrangement.Center,
-            modifier = modifier)
+        modifier = modifier,)
         {
-            WeatherIcon (openWeatherCurrent, modifier = Modifier
-                            .padding(22.dp))
-
-
-        }
-        Row(horizontalArrangement = Arrangement.Center)
-        {
-            Spacer(modifier = Modifier.height(8.dp))
+//            Spacer(modifier = Modifier.height(20.dp))
             Text(
-                fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                text = openWeatherCurrent.weather.temperature.toString() + " C"
+                fontSize = 14.sp,
+                text = openWeatherCurrent.weatherCondition[0].description
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                fontSize = 14.sp,
+                text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds"
             )
         }
-    }
 }
 @Composable
 fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
@@ -158,19 +152,6 @@ fun WeatherIcon( openWeatherCurrent: OpenWeatherCurrent,
             contentScale = ContentScale.FillBounds ,
             modifier = modifier.size(80.dp, 80.dp)
         )
-
-        Column {
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                fontSize = 14.sp,
-                text = openWeatherCurrent.weatherCondition[0].description
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                fontSize = 14.sp,
-                text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds"
-            )
-        }
     }
 }
 
