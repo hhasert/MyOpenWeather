@@ -25,6 +25,28 @@ import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
+fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifier)
+{
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+        LazyRow(
+            modifier = modifier.padding(horizontal = 4.dp)
+                .fillMaxWidth()
+        )
+        {
+            items(openWeatherForecast.count)
+            {
+                ForecastItem(it, openWeatherForecast.forecast, openWeatherForecast.city.timezone)
+            }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
 fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone : Int)
 {
     val date : LocalDate = epochConvertToDate(openWeatherForecast[index].datetime + timezone)
@@ -62,27 +84,6 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
         )
         {
             WindIcon(openWeatherForecast[index].wind.direction.toFloat(), modifier= Modifier.size(14.dp))
-        }
-    }
-}
-@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifier)
-{
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-    ) {
-        LazyRow(
-            modifier = modifier.padding(horizontal = 4.dp)
-                .fillMaxWidth()
-        )
-        {
-            items(openWeatherForecast.count)
-            {
-                ForecastItem(it, openWeatherForecast.forecast, openWeatherForecast.city.timezone)
-            }
         }
     }
 }
