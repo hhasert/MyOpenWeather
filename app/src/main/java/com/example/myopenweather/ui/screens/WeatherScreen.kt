@@ -114,7 +114,7 @@ fun CurrentWeatherScreen(
                 .fillMaxWidth()
                 .padding(start = 26.dp, end = 26.dp) ) {
             WindSpeedandDirection(openWeatherCurrent.wind.speed, openWeatherCurrent.wind.direction)
-            Text(textAlign = TextAlign.End,text = epochConvertToTime(openWeatherCurrent.datetime).toString())
+            Text(textAlign = TextAlign.End,text = epochConvertToTime(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -181,8 +181,8 @@ fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
         }
         Column(){
             Text(openWeatherCurrent.weatherCondition[0].summary)
-            Text(text = epochConvertToDate(openWeatherCurrent.datetime).toString())
-            Text(text = epochConvertToTime(openWeatherCurrent.datetime).toString())
+            Text(text = epochConvertToDate(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
+            Text(text = epochConvertToTime(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
         }
     }
 }
