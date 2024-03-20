@@ -1,5 +1,7 @@
 package com.example.myopenweather.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -15,6 +17,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myopenweather.R
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun WeatherIcon( icon : String,
@@ -40,4 +46,18 @@ fun WindIcon ( direction : Float, modifier : Modifier)
         null,
         modifier.rotate( direction - 270.0f)
     )
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+fun epochConvertToDate (epoch: Long ) : LocalDate
+{
+    return (LocalDate.parse(
+        DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+fun epochConvertToTime ( epoch : Long ) : LocalTime
+{
+    return(LocalTime.parse(
+        DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
 }

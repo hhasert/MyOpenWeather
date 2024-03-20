@@ -1,7 +1,5 @@
 package com.example.myopenweather.ui.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,10 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.myopenweather.R
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
@@ -48,17 +42,5 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
             Text(stringResource(R.string.retry))
         }
     }
-}
-@RequiresApi(Build.VERSION_CODES.Q)
-fun epochConvertToDate (epoch: Long ) : LocalDate
-{
-    return (LocalDate.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
-}
-@RequiresApi(Build.VERSION_CODES.Q)
-fun epochConvertToTime ( epoch : Long ) : LocalTime
-{
-    return(LocalTime.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(epoch)),
-           DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")))
 }
 
