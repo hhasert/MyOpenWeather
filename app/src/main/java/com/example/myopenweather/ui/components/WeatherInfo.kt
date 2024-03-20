@@ -21,6 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myopenweather.model.OpenWeatherCurrent
+import com.example.myopenweather.ui.common.WeatherIcon
+import com.example.myopenweather.ui.common.WindIcon
+import com.example.myopenweather.ui.common.epochConvertToTime
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable

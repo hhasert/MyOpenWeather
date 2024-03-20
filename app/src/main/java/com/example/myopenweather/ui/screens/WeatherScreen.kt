@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.model.OpenWeatherForecast
 import com.example.myopenweather.ui.components.WeatherInfo
-import com.example.myopenweather.ui.components.ErrorScreen
-import com.example.myopenweather.ui.components.LoadingScreen
+import com.example.myopenweather.ui.common.ErrorScreen
+import com.example.myopenweather.ui.common.LoadingScreen
 import com.example.myopenweather.ui.components.WeatherForecast
 
 @RequiresApi(Build.VERSION_CODES.Q)

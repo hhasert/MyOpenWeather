@@ -20,6 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.myopenweather.model.ForecastData
 import com.example.myopenweather.model.OpenWeatherForecast
+import com.example.myopenweather.ui.common.WeatherIcon
+import com.example.myopenweather.ui.common.WindIcon
+import com.example.myopenweather.ui.common.epochConvertToDate
+import com.example.myopenweather.ui.common.epochConvertToTime
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
