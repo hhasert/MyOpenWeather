@@ -123,7 +123,7 @@ data class City(
     val coordinates : Coordinates,
     val country : String,
     val population : String,
-    val timezone : String,
+    val timezone : Int,
     val sunrise : String,
     val sunset : String,
 )

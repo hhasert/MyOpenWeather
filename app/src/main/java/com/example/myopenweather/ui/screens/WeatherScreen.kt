@@ -164,33 +164,9 @@ fun WeatherIcon( icon : String,
  }
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun WeatherDetails ( openWeatherCurrent: OpenWeatherCurrent,
-                     modifier: Modifier = Modifier)
+fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone : Int)
 {
-    Row ()
-    {
-       Column (modifier.padding(end=4.dp)){
-            Text("Weather",modifier.padding(end=44.dp))
-            Text("Date",modifier.padding(end=70.dp))
-            Text("Time",modifier.padding(end=68.dp))
-        }
-        Column (modifier.padding(end=8.dp)){
-            Text(":")
-            Text(":")
-            Text(":")
-        }
-        Column(){
-            Text(openWeatherCurrent.weatherCondition[0].summary)
-            Text(text = epochConvertToDate(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
-            Text(text = epochConvertToTime(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
-        }
-    }
-}
-@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
-{
-    val date : LocalDate = epochConvertToDate(openWeatherForecast[index].datetime)
+   val date : LocalDate = epochConvertToDate(openWeatherForecast[index].datetime + timezone)
    Card (
        modifier = Modifier
            .size(width = 68.dp, height = 240.dp)
@@ -214,16 +190,17 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>)
             )
        Spacer(modifier = Modifier.height(8.dp))
        Text(textAlign = TextAlign.Center,  style = MaterialTheme.typography.labelSmall,text ="wind", modifier = Modifier.fillMaxWidth())
-       Spacer(modifier = Modifier.height(4.dp))
+       Spacer(modifier = Modifier.height(2.dp))
        Text(textAlign = TextAlign.Center, text = "" + (openWeatherForecast[index].wind.speed).roundToInt() + " m/s",
-           modifier = Modifier.fillMaxWidth()
+           modifier = Modifier.fillMaxWidth() )
+       Spacer(modifier = Modifier.height(4.dp)
        )
        Row(
            Modifier.fillMaxWidth(),
            horizontalArrangement = Arrangement.Center,
           )
        {
-           WindIcon(openWeatherForecast[index].wind.direction.toFloat(), Modifier.size(14.dp))
+           WindIcon(openWeatherForecast[index].wind.direction.toFloat(), modifier= Modifier.size(14.dp))
        }
     }
 }
@@ -237,7 +214,7 @@ fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifie
     {
         items(openWeatherForecast.count)
         {
-            ForecastItem (it, openWeatherForecast.forecast)
+            ForecastItem (it, openWeatherForecast.forecast, openWeatherForecast.city.timezone)
         }
     }
 }
