@@ -1,4 +1,4 @@
-package com.example.myopenweather.ui.screens
+package com.example.myopenweather.ui.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -55,13 +55,19 @@ data class LocationUiState (
 )
 class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var openWeatherCurrentUiState: OpenWeatherCurrentUiState by mutableStateOf(OpenWeatherCurrentUiState.Loading)
+    var openWeatherCurrentUiState: OpenWeatherCurrentUiState by mutableStateOf(
+        OpenWeatherCurrentUiState.Loading
+    )
         private set
-    var openWeatherForecastUiState: OpenWeatherForecastUiState by mutableStateOf(OpenWeatherForecastUiState.Loading)
+    var openWeatherForecastUiState: OpenWeatherForecastUiState by mutableStateOf(
+        OpenWeatherForecastUiState.Loading
+    )
         private set
     var geoLocationUiState: GeoLocationUiState by mutableStateOf(GeoLocationUiState.Loading)
         private set
-    var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(GeoLocationByCoordsUiState.Loading)
+    var geoLocationByCoordsUiState: GeoLocationByCoordsUiState by mutableStateOf(
+        GeoLocationByCoordsUiState.Loading
+    )
         private set
 
     private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation() ) )
@@ -81,9 +87,10 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         viewModelScope.launch {
             geoLocationUiState = GeoLocationUiState.Loading
             geoLocationUiState = try {
-                GeoLocationUiState.Success(openWeatherRepository.getGeoLocation(
-                    name,
-                    apiKey
+                GeoLocationUiState.Success(
+                    openWeatherRepository.getGeoLocation(
+                        name,
+                        apiKey
                     )
                 )
             } catch (e: IOException) {
@@ -98,10 +105,11 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
         viewModelScope.launch {
             geoLocationByCoordsUiState = GeoLocationByCoordsUiState.Loading
             geoLocationByCoordsUiState = try {
-                GeoLocationByCoordsUiState.Success(openWeatherRepository.getGeoLocationByCoords(
-                    latitude,
-                    longitude,
-                    apiKey
+                GeoLocationByCoordsUiState.Success(
+                    openWeatherRepository.getGeoLocationByCoords(
+                        latitude,
+                        longitude,
+                        apiKey
                     )
                 )
             } catch (e: IOException) {
@@ -137,12 +145,13 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             viewModelScope.launch {
                 openWeatherForecastUiState = OpenWeatherForecastUiState.Loading
                 openWeatherForecastUiState = try {
-                    OpenWeatherForecastUiState.Success(openWeatherRepository.getOpenWeatherForecast(
-                        latitude,
-                        longitude,
-                        units,
-                        language,
-                        apiKey
+                    OpenWeatherForecastUiState.Success(
+                        openWeatherRepository.getOpenWeatherForecast(
+                            latitude,
+                            longitude,
+                            units,
+                            language,
+                            apiKey
                         )
                     )
                 } catch (e: IOException) {

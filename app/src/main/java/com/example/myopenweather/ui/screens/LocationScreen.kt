@@ -22,6 +22,7 @@ import com.example.myopenweather.R
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.ui.common.ErrorScreen
 import com.example.myopenweather.ui.common.LoadingScreen
+import com.example.myopenweather.ui.viewmodel.GeoLocationByCoordsUiState
 
 
 @Composable

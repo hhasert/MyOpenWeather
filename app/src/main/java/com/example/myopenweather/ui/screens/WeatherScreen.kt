@@ -17,6 +17,8 @@ import com.example.myopenweather.ui.components.WeatherInfo
 import com.example.myopenweather.ui.common.ErrorScreen
 import com.example.myopenweather.ui.common.LoadingScreen
 import com.example.myopenweather.ui.components.WeatherForecast
+import com.example.myopenweather.ui.viewmodel.OpenWeatherCurrentUiState
+import com.example.myopenweather.ui.viewmodel.OpenWeatherForecastUiState
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable

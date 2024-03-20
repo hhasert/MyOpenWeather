@@ -39,8 +39,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myopenweather.R
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
-import com.example.myopenweather.ui.screens.OpenWeatherViewModel
 import com.example.myopenweather.ui.screens.WeatherScreen
+import com.example.myopenweather.ui.viewmodel.OpenWeatherViewModel
 
 //private const val TAG = "MyOpenWeather"
 /**
