@@ -4,19 +4,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.model.OpenWeatherForecast
+import com.example.myopenweather.ui.components.CurrentWeatherInfo
+import com.example.myopenweather.ui.components.ErrorScreen
+import com.example.myopenweather.ui.components.LoadingScreen
+import com.example.myopenweather.ui.components.WeatherForecast
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable

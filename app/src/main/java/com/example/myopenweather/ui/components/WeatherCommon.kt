@@ -1,4 +1,4 @@
-package com.example.myopenweather.ui.screens
+package com.example.myopenweather.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons

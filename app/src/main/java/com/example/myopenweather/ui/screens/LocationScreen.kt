@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myopenweather.R
 import com.example.myopenweather.model.GeoLocation
+import com.example.myopenweather.ui.components.ErrorScreen
+import com.example.myopenweather.ui.components.LoadingScreen
 
 
 @Composable

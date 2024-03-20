@@ -1,4 +1,4 @@
-package com.example.myopenweather.ui.screens
+package com.example.myopenweather.ui.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi

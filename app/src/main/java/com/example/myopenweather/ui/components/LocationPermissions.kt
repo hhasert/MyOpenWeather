@@ -1,4 +1,4 @@
-package com.example.myopenweather.ui.screens
+package com.example.myopenweather.ui.components
 
 /*
  * Copyright 2023 The Android Open Source Project
