@@ -24,7 +24,7 @@ import com.example.myopenweather.model.OpenWeatherCurrent
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun CurrentWeatherInfo (
+fun WeatherInfo (
     openWeatherCurrent: OpenWeatherCurrent,
     modifier: Modifier
 )
