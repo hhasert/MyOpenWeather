@@ -162,7 +162,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             location.longitude = "-73.984840"
             return (location)
     }
-     private fun initCurrentLocation() {
+     fun initCurrentLocation() {
         getCurrentLocation(
             { onGetCurrentLocationSuccess(it) },
             { onGetLastLocationFailed(it) }

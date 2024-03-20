@@ -120,7 +120,8 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
         ) {
 
             composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
-                LocationPermissionScreen { navController.navigate(MyOpenWeatherScreen.Location.name) }
+                LocationPermissionScreen { openWeatherViewModel.initCurrentLocation()
+                                           navController.navigate(MyOpenWeatherScreen.Location.name) }
             }
 
             composable(route = MyOpenWeatherScreen.Location.name) {
