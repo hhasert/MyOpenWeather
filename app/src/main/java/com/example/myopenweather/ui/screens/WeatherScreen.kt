@@ -82,52 +82,78 @@ fun CurrentWeatherScreen(
     modifier :Modifier =  Modifier,
     contentPadding: PaddingValues = PaddingValues(5.dp),
 ) {
-    Column ()
-    {
+    Column {
+        CurrentWeatherInfo(openWeatherCurrent, modifier)
+        Spacer(modifier = Modifier.height(32.dp))
+        Card(
+            modifier = modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium,
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        )
+        { WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = Modifier) }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.Q)
+@Composable
+fun CurrentWeatherInfo (
+    openWeatherCurrent: OpenWeatherCurrent,
+    modifier: Modifier
+   )
+{
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .align(Alignment.CenterHorizontally),
+        modifier = Modifier
+            .fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp))
-        {
-            Text(style = MaterialTheme.typography.displayMedium, text = openWeatherCurrent.locationName)
-        }
-       Row(horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 2.dp, end = 2.dp) ) {
-            Text( style = MaterialTheme.typography.displayLarge, text = openWeatherCurrent.weather.temperature.toString() + " \u2103" )
-            WeatherIcon(openWeatherCurrent.weatherCondition[0].icon, modifier = Modifier.size(80.dp, 80.dp))
-            WeatherInfo(openWeatherCurrent, modifier = Modifier)
-       }
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+                .padding(top = 8.dp)
+        )
+        {
+            Text(
+                style = MaterialTheme.typography.displayMedium,
+                text = openWeatherCurrent.locationName
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 26.dp, end = 26.dp) ) {
+                .padding(start = 2.dp, end = 2.dp)
+        ) {
+            Text(
+                style = MaterialTheme.typography.displayLarge,
+                text = openWeatherCurrent.weather.temperature.toString() + " \u2103"
+            )
+            WeatherIcon(
+                openWeatherCurrent.weatherCondition[0].icon,
+                modifier = Modifier.size(80.dp, 80.dp)
+            )
+            WeatherClouds(openWeatherCurrent, modifier = Modifier)
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 26.dp, end = 26.dp)
+        ) {
             WindSpeedandDirection(openWeatherCurrent.wind.speed, openWeatherCurrent.wind.direction)
-            Text(textAlign = TextAlign.End,text = epochConvertToTime(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString())
+            Text(
+                textAlign = TextAlign.End,
+                text = epochConvertToTime(openWeatherCurrent.datetime + openWeatherCurrent.timezone).toString()
+            )
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
-        Spacer(modifier = Modifier.height(32.dp))
-        Card (
-            modifier = modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ){ WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = Modifier )}
-   }
 }
+
 @Composable
-fun WeatherInfo (
+fun WeatherClouds(
     openWeatherCurrent: OpenWeatherCurrent,
     modifier: Modifier)
 {
