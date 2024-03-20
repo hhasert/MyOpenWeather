@@ -85,12 +85,7 @@ fun CurrentWeatherScreen(
     Column {
         CurrentWeatherInfo(openWeatherCurrent, modifier)
         Spacer(modifier = Modifier.height(32.dp))
-        Card(
-            modifier = modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        )
-        { WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = Modifier) }
+        WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = Modifier)
     }
 }
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -234,13 +229,20 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
 @Composable
 fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifier)
 {
-    LazyRow( modifier = modifier.padding(horizontal = 4.dp)
-            .fillMaxWidth()
-    )
-    {
-        items(openWeatherForecast.count)
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+        LazyRow(
+            modifier = modifier.padding(horizontal = 4.dp)
+                .fillMaxWidth()
+        )
         {
-            ForecastItem (it, openWeatherForecast.forecast, openWeatherForecast.city.timezone)
+            items(openWeatherForecast.count)
+            {
+                ForecastItem(it, openWeatherForecast.forecast, openWeatherForecast.city.timezone)
+            }
         }
     }
 }
