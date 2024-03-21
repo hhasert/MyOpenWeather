@@ -53,7 +53,7 @@ sealed interface OpenWeatherForecastUiState {
 
 data class LocationUiState (
     var currentLocation: LocationData,
-    var locations : List <LocationData>
+    var locations : MutableList <LocationData>
 )
 class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
@@ -180,6 +180,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     }
     fun onGetCurrentLocationSuccess (location: Pair<Double, Double>)
     {
+        val loc = LocationData()
         uiState.value.currentLocation.latitude = location.first.toString()
         uiState.value.currentLocation.longitude = location.second.toString()
         getGeoLocationByCoords (
@@ -196,6 +197,10 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             longitude = uiState.value.currentLocation.longitude,
             units = "metric",
             language = "en")
+        loc.latitude = uiState.value.currentLocation.latitude
+        loc.longitude = uiState.value.currentLocation.longitude
+        loc.name =  "Current Location"
+        uiState.value.locations.add(loc)
     }
     fun  onGetLastLocationFailed(e : Exception)
     {
