@@ -23,9 +23,9 @@ val locationsData = mutableListOf(
                 longitude = "4.693563"
        ),
        LocationData(
-        name = "Islantilla",
-        latitude = "37.214665",
-        longitude = "-7.229323"
+                name = "Islantilla",
+                latitude = "37.214665",
+                longitude = "-7.229323"
     ),
 )
 
