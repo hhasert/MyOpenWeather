@@ -38,7 +38,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myopenweather.R
-import com.example.myopenweather.data.LocationData
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen
@@ -170,10 +169,6 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                 )
             }
         }
-    }
-    fun handleClickEvent (location: LocationData)
-    {
-
     }
 }
 @Composable
