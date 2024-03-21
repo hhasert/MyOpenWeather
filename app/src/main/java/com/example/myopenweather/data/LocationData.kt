@@ -1,31 +1,31 @@
 package com.example.myopenweather.data
 
 data class LocationData (
-    var id: String = "",
     var name: String = "",
     var latitude: String = "",
     var longitude: String = ""
 )
-
-object locationsData {
-   val locationDataList = listOf(
-        LocationData (
-                id = "1",
+val locationsData = mutableListOf(
+        LocationData
+        (
                 name = "Burggolf Westerpark",
                 latitude = "52.055347",
                 longitude = "4.432401"
         ),
-        LocationData (
-                id = "2",
+       LocationData(
                 name = "Golfbaan Bentwoud",
                 latitude = "52.069423",
                 longitude = "4.571822"
        ),
-       LocationData (
-                id = "3",
+       LocationData(
                 name = "Golfbaan Spaarnwoude",
                 latitude = "52.426639",
                 longitude = "4.693563"
-       )
-   )
-}
+       ),
+       LocationData(
+        name = "Islantilla",
+        latitude = "37.214665",
+        longitude = "-7.229323"
+    ),
+)
+

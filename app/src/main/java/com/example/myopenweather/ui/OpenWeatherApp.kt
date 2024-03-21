@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,6 +38,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myopenweather.R
+import com.example.myopenweather.data.LocationData
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen
@@ -57,6 +59,7 @@ fun OpenWeatherTopAppBar(
     currentScreen: MyOpenWeatherScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
+    navigateMenu: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior, modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         scrollBehavior = scrollBehavior,
@@ -75,6 +78,14 @@ fun OpenWeatherTopAppBar(
                         contentDescription = stringResource(R.string.back_button)
                     )
                 }
+            }
+        },
+        actions = {
+            IconButton(onClick = navigateMenu) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "Localized description"
+                )
             }
         }
     )
@@ -95,19 +106,19 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
     val openWeatherViewModel: OpenWeatherViewModel =
         viewModel(factory = OpenWeatherViewModel.Factory)
     val uiState by openWeatherViewModel.uiState.collectAsState()
-
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { OpenWeatherTopAppBar(
             currentScreen = currentScreen,
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.navigateUp() },
+            navigateMenu = {navController.navigate(MyOpenWeatherScreen.Location.name)},
             scrollBehavior = scrollBehavior) }
     ) { innerPadding ->
         // Check to see if location permissions were granted, if not tell NavHost to start with
         // [LocationPermissionScreen] to set them correctly
         val startDestination = if (areLocationPermissionsGranted()) {
-            MyOpenWeatherScreen.Location.name
+            MyOpenWeatherScreen.Weather.name
         }
         else MyOpenWeatherScreen.RequestPermissions.name
         NavHost(
@@ -121,14 +132,17 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
 
             composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
                 LocationPermissionScreen { openWeatherViewModel.initCurrentLocation()
-                                           navController.navigate(MyOpenWeatherScreen.Location.name) }
+                                           navController.navigate(MyOpenWeatherScreen.Weather.name) }
             }
 
             composable(route = MyOpenWeatherScreen.Location.name) {
                 LocationScreen(
                     geoLocationByCoordsUiState = openWeatherViewModel.geoLocationByCoordsUiState,
+                    uiState.locations,
                     retryAction = { /*TODO Should call the viewmodel to get location again*/},
-                    onNextButtonClicked = {
+                    onNextButtonClicked =  {
+                                            uiState.currentLocation.latitude = it.latitude
+                                            uiState.currentLocation.longitude = it.longitude
                                             openWeatherViewModel.getOpenWeatherCurrent(
                                                 latitude = uiState.currentLocation.latitude,
                                                 longitude = uiState.currentLocation.longitude,
@@ -156,6 +170,10 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                 )
             }
         }
+    }
+    fun handleClickEvent (location: LocationData)
+    {
+
     }
 }
 @Composable

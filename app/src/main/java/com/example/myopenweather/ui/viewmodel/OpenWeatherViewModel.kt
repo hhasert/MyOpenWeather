@@ -14,6 +14,7 @@ import com.example.myopenweather.BuildConfig
 import com.example.myopenweather.OpenWeatherApplication
 import com.example.myopenweather.data.LocationData
 import com.example.myopenweather.data.OpenWeatherRepository
+import com.example.myopenweather.data.locationsData
 import com.example.myopenweather.fusedLocationProviderClient
 import com.example.myopenweather.model.GeoLocation
 import com.example.myopenweather.model.OpenWeatherCurrent
@@ -51,7 +52,8 @@ sealed interface OpenWeatherForecastUiState {
 }
 
 data class LocationUiState (
-    var currentLocation: LocationData
+    var currentLocation: LocationData,
+    var locations : List <LocationData>
 )
 class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherRepository) : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
@@ -70,7 +72,7 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     )
         private set
 
-    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation() ) )
+    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation() , locations = locationsData) )
     val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
 
     // Go to https://openweathermap.org/api , create an account and get an API Key
@@ -165,7 +167,6 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     //Prefill location data, will be overwritten by calls to get the location
     private fun setDummyLocation() : LocationData {
             val location = LocationData()
-            location.id = "current"
             location.name = "New York"
             location.latitude = "40.748096"
             location.longitude = "-73.984840"
@@ -185,6 +186,16 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
             uiState.value.currentLocation.latitude,
             uiState.value.currentLocation.longitude
         )
+       getOpenWeatherCurrent(
+            latitude = uiState.value.currentLocation.latitude,
+            longitude = uiState.value.currentLocation.longitude,
+            units = "metric",
+            language = "en")
+        getOpenWeatherForecast(
+            latitude = uiState.value.currentLocation.latitude,
+            longitude = uiState.value.currentLocation.longitude,
+            units = "metric",
+            language = "en")
     }
     fun  onGetLastLocationFailed(e : Exception)
     {
@@ -193,9 +204,9 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     /**
      * Retrieves the current user location asynchronously.
      *
-     * @param onGetCurrentLocationSuccess Callback function invoked when the current location is successfully retrieved.
+     * @param onGetLastLocationSuccess Callback function invoked when the current location is successfully retrieved.
      *        It provides a Pair representing latitude and longitude.
-     * @param onGetCurrentLocationFailed Callback function invoked when an error occurs while retrieving the current location.
+     * @param onGetLastLocationFailed Callback function invoked when an error occurs while retrieving the current location.
      *        It provides the Exception that occurred.
      */
 
