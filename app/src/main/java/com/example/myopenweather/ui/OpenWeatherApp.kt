@@ -8,8 +8,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -59,7 +57,9 @@ fun OpenWeatherTopAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     navigateMenu: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior, modifier: Modifier = Modifier) {
+    scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier)
+{
     CenterAlignedTopAppBar(
         scrollBehavior = scrollBehavior,
         title = {
@@ -109,7 +109,8 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { OpenWeatherTopAppBar(
             currentScreen = currentScreen,
-            canNavigateBack = navController.previousBackStackEntry != null,
+     //       canNavigateBack = navController.previousBackStackEntry != null,
+            canNavigateBack = false,
             navigateUp = { navController.navigateUp() },
             navigateMenu = {navController.navigate(MyOpenWeatherScreen.Location.name)},
             scrollBehavior = scrollBehavior) }
@@ -125,7 +126,6 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
             startDestination = startDestination,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
 
@@ -153,7 +153,7 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
                                                 units = "metric",
                                                 language = "en")
                                             navController.navigate(MyOpenWeatherScreen.Weather.name)
-                                           },
+                                            },
                         modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))

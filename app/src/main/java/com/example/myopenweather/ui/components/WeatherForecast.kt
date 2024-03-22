@@ -25,6 +25,7 @@ import com.example.myopenweather.ui.common.WindIcon
 import com.example.myopenweather.ui.common.epochConvertToDate
 import com.example.myopenweather.ui.common.epochConvertToTime
 import java.time.LocalDate
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -68,7 +69,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
             modifier = Modifier.fillMaxWidth())
         WeatherIcon(openWeatherForecast[index].weatherCondition[0].icon, modifier = Modifier.size(64.dp, 64.dp) )
         Text(textAlign = TextAlign.Center,
-            text = openWeatherForecast[index].weather.temperature.roundToInt().toString() + " \u2103",
+            text = ""+ round(openWeatherForecast[index].weather.temperature *10)/10 + " \u2103",
             modifier = Modifier.fillMaxWidth() )
         Spacer(modifier = Modifier.height(6.dp))
         Text(textAlign = TextAlign.Center, style = MaterialTheme.typography.labelSmall, text ="rain", modifier = Modifier.fillMaxWidth())
@@ -78,7 +79,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
         Spacer(modifier = Modifier.height(8.dp))
         Text(textAlign = TextAlign.Center,  style = MaterialTheme.typography.labelSmall,text ="wind", modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(2.dp))
-        Text(textAlign = TextAlign.Center, text = "" + (openWeatherForecast[index].wind.speed).roundToInt() + " m/s",
+        Text(textAlign = TextAlign.Center, text = "" + round(openWeatherForecast[index].wind.speed * 10)/10 + " m/s",
             modifier = Modifier.fillMaxWidth() )
         Spacer(modifier = Modifier.height(4.dp)
         )
