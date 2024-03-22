@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.ui.common.WeatherIcon
 import com.example.myopenweather.ui.common.WindIcon
@@ -53,11 +52,11 @@ fun WeatherInfo (
             )
         }
         Row(
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 2.dp, end = 2.dp)
+                .padding(start = 14.dp, end = 14.dp)
         ) {
             Temperature( openWeatherCurrent.weather.temperature, openWeatherCurrent.weather.temperatureFeelsLike )
             WeatherIcon(
@@ -71,7 +70,7 @@ fun WeatherInfo (
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp)
+                .padding(start = 14.dp, end = 14.dp)
         ) {
             WindSpeedandDirection(openWeatherCurrent.wind.speed, openWeatherCurrent.wind.direction)
             Text (textAlign = TextAlign.Center, text = "humidity : " + openWeatherCurrent.weather.humidity +  " %")
@@ -89,17 +88,16 @@ fun WeatherClouds(
     modifier: Modifier)
 {
     Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,)
+        horizontalAlignment = Alignment.End,
+        modifier = modifier)
     {
-        Text(
-            fontSize = 14.sp,
+        Text( textAlign = TextAlign.End,
+            style = MaterialTheme.typography.bodySmall,
             text = openWeatherCurrent.weatherCondition[0].description
         )
         Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            fontSize = 14.sp,
+        Text(textAlign = TextAlign.End,
+            style = MaterialTheme.typography.bodySmall,
             text = openWeatherCurrent.clouds.cloudiness.toString() + " % clouds"
         )
     }
