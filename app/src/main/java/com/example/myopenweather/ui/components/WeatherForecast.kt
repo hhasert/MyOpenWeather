@@ -135,5 +135,5 @@ fun RainOrSnow ( probability: Double, rain: Double, snow : Double)
         Text(textAlign = TextAlign.Center, text = "" + (round(snow * 10) / 10) + " mm", modifier = Modifier.fillMaxWidth())
     }
     if (rain == 0.0 && snow == 0.0 )
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 }
