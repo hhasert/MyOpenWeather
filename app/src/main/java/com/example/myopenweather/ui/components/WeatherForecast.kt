@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +37,7 @@ fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifie
     Card(
           shape = MaterialTheme.shapes.medium,
           elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        modifier = Modifier.height (250.dp)
+        modifier = Modifier.height (350.dp)
     ) {
         LazyRow(
             modifier = modifier.padding(horizontal = 4.dp)
@@ -62,6 +63,14 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
     ){
         Spacer(modifier = Modifier.height(8.dp))
         DateTime(openWeatherForecast[index].datetime, timezone)
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            textAlign = TextAlign.Center,
+            text = "" + openWeatherForecast[index].weatherCondition[0].summary,
+            modifier = Modifier.fillMaxWidth()
+        )
         WeatherIcon(
             openWeatherForecast[index].weatherCondition[0].icon,
             modifier = Modifier.size(64.dp, 64.dp)
@@ -72,11 +81,15 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+        Spacer(modifier = Modifier.height(8.dp))
         RainOrSnow(
             openWeatherForecast[index].precipitationProbability,
             openWeatherForecast[index].rain?.threeHour ?: 0.0,
             openWeatherForecast[index].snow?.threeHour ?: 0.0
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             textAlign = TextAlign.Center,
@@ -112,10 +125,13 @@ fun DateTime (epoch : Long, timezone: Long )
 {
     val date: LocalDate = epochConvertToDate(epoch + timezone)
 
-    Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
+    Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelMedium,
+        text = date.dayOfWeek.toString().take(2),
+        modifier = Modifier.fillMaxWidth())
+    Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.bodySmall,
         text = date.dayOfMonth.toString() + "-" + date.monthValue,
         modifier = Modifier.fillMaxWidth())
-    Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelSmall,
+    Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.bodySmall,
         text = epochConvertToTime(epoch + timezone).toString(),
         modifier = Modifier.fillMaxWidth())
 }
@@ -135,5 +151,5 @@ fun RainOrSnow ( probability: Double, rain: Double, snow : Double)
         Text(textAlign = TextAlign.Center, text = "" + (round(snow * 10) / 10) + " mm", modifier = Modifier.fillMaxWidth())
     }
     if (rain == 0.0 && snow == 0.0 )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 }
