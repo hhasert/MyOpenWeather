@@ -3,6 +3,7 @@ package com.example.myopenweather.ui.components
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -122,9 +123,10 @@ fun ForecastTemperature( temperature : Double, realFeel: Double)
     Spacer(modifier = Modifier.height(2.dp))
     Row( horizontalArrangement = Arrangement.Center,  modifier = Modifier.fillMaxWidth() .padding(start = 2.dp) )
     {
+        val backhand = if( isSystemInDarkTheme() ) R.drawable.back_hand_light else R.drawable.back_hand_dark
         Image(
             modifier = Modifier.size(12.dp),
-            painter = painterResource(R.drawable.baseline_back_hand_24),
+            painter = painterResource(backhand),
             contentDescription = stringResource(R.string.loading)
         )
       Text(

@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.model.OpenWeatherForecast
-import com.example.myopenweather.ui.components.WeatherInfo
 import com.example.myopenweather.ui.common.ErrorScreen
 import com.example.myopenweather.ui.common.LoadingScreen
 import com.example.myopenweather.ui.components.WeatherForecast
+import com.example.myopenweather.ui.components.WeatherInfo
 import com.example.myopenweather.ui.viewmodel.OpenWeatherCurrentUiState
 import com.example.myopenweather.ui.viewmodel.OpenWeatherForecastUiState
 
@@ -61,7 +61,7 @@ fun CurrentWeatherScreen(
     modifier :Modifier =  Modifier,
 ) {
     Column {
-        WeatherInfo(openWeatherCurrent, modifier)
+        WeatherInfo(openWeatherCurrent)
         Spacer(modifier = Modifier.height(32.dp))
         WeatherForecast(openWeatherForecast = openWeatherForecast, modifier = modifier)
     }
