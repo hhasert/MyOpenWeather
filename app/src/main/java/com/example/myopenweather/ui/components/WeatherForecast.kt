@@ -43,7 +43,7 @@ fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifie
     Card(
           shape = MaterialTheme.shapes.medium,
           elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        modifier = Modifier.height (400.dp)
+        modifier = Modifier.height (420.dp)
     ) {
         LazyRow(
             modifier = modifier.padding(horizontal = 4.dp)
