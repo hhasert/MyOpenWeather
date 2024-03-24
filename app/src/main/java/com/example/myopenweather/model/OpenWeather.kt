@@ -96,9 +96,9 @@ data class Weather (
 @Serializable
 data class RainOrSnow (
     @SerialName(value = "1h")
-    val OneHour : Double? = null,
+    val oneHour : Double? = null,
     @SerialName(value = "3h")
-    val ThreeHour: Double? = null
+    val threeHour: Double? = null
 )
 @Serializable
 data class Clouds(
@@ -123,7 +123,7 @@ data class City(
     val coordinates : Coordinates,
     val country : String,
     val population : String,
-    val timezone : Int,
+    val timezone : Long,
     val sunrise : String,
     val sunset : String,
 )
