@@ -65,7 +65,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
     Card (
           shape = MaterialTheme.shapes.medium,
           modifier = Modifier.fillMaxWidth()
-                    .width(68.dp)
+                    .width(80.dp)
     ){
         Spacer(modifier = Modifier.height(8.dp))
         DateTime(openWeatherForecast[index].datetime, timezone)
