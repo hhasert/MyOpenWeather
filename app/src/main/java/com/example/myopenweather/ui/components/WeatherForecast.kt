@@ -37,7 +37,7 @@ fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifie
     Card(
           shape = MaterialTheme.shapes.medium,
           elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        modifier = Modifier.height (350.dp)
+        modifier = Modifier.height (400.dp)
     ) {
         LazyRow(
             modifier = modifier.padding(horizontal = 4.dp)
@@ -63,10 +63,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
     ){
         Spacer(modifier = Modifier.height(8.dp))
         DateTime(openWeatherForecast[index].datetime, timezone)
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
+                Text(
             textAlign = TextAlign.Center,
             text = "" + openWeatherForecast[index].weatherCondition[0].summary,
             modifier = Modifier.fillMaxWidth()
@@ -75,47 +72,15 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
             openWeatherForecast[index].weatherCondition[0].icon,
             modifier = Modifier.size(64.dp, 64.dp)
         )
-        Text(
-            textAlign = TextAlign.Center,
-            text = "" + round(openWeatherForecast[index].weather.temperature * 10) / 10 + " \u2103",
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
-        Spacer(modifier = Modifier.height(8.dp))
+        Temperature (openWeatherForecast[index].weather.temperature)
         RainOrSnow(
             openWeatherForecast[index].precipitationProbability,
             openWeatherForecast[index].rain?.threeHour ?: 0.0,
             openWeatherForecast[index].snow?.threeHour ?: 0.0
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelSmall,
-            text = "wind",
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            textAlign = TextAlign.Center,
-            text = "" + round(openWeatherForecast[index].wind.speed * 10) / 10 + " m/s",
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(
-            modifier = Modifier.height(4.dp)
-        )
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        )
-        {
-            WindIcon(
-                openWeatherForecast[index].wind.direction.toFloat(),
-                modifier = Modifier.size(14.dp)
-            )
-        }
+        Humidity(openWeatherForecast[index].weather.humidity)
+        Wind(openWeatherForecast[index].wind.speed, openWeatherForecast[index].wind.direction)
+
     }
 }
 
@@ -127,13 +92,30 @@ fun DateTime (epoch : Long, timezone: Long )
 
     Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.labelMedium,
         text = date.dayOfWeek.toString().take(2),
-        modifier = Modifier.fillMaxWidth())
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.fillMaxWidth() )
     Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.bodySmall,
         text = date.dayOfMonth.toString() + "-" + date.monthValue,
         modifier = Modifier.fillMaxWidth())
     Text(textAlign = TextAlign.Center,style = MaterialTheme.typography.bodySmall,
         text = epochConvertToTime(epoch + timezone).toString(),
         modifier = Modifier.fillMaxWidth())
+    Spacer(modifier = Modifier.height(8.dp))
+    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+    Spacer(modifier = Modifier.height(8.dp))
+}
+
+@Composable
+fun Temperature( temperature : Double)
+{
+    Text(
+    textAlign = TextAlign.Center,
+    text = "" + round(temperature * 10) / 10 + " \u2103",
+    modifier = Modifier.fillMaxWidth()
+)
+    Spacer(modifier = Modifier.height(8.dp))
+    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+    Spacer(modifier = Modifier.height(8.dp))
 }
 @Composable
 fun RainOrSnow ( probability: Double, rain: Double, snow : Double)
@@ -152,4 +134,52 @@ fun RainOrSnow ( probability: Double, rain: Double, snow : Double)
     }
     if (rain == 0.0 && snow == 0.0 )
         Spacer(modifier = Modifier.height(18.dp))
+    Spacer(modifier = Modifier.height(8.dp))
+    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+    Spacer(modifier = Modifier.height(8.dp))
+}
+@Composable
+fun Wind (speed: Double, direction: Int)
+{
+    Text(
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.labelSmall,
+        text = "wind",
+        modifier = Modifier.fillMaxWidth()
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Text(
+        textAlign = TextAlign.Center,
+        text = "" + round(speed * 10) / 10 + " m/s",
+        modifier = Modifier.fillMaxWidth()
+    )
+    Spacer(
+        modifier = Modifier.height(4.dp)
+    )
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+    )
+    {
+        WindIcon(
+            direction.toFloat(),
+            modifier = Modifier.size(14.dp)
+        )
+    }
+}
+@Composable
+fun Humidity(humidity : Int)
+{
+    Text(
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.labelSmall,
+        text = "humid",
+        modifier = Modifier.fillMaxWidth()
+    )
+    Text(textAlign = TextAlign.Center, text = "$humidity %",
+        modifier = Modifier.fillMaxWidth()
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
+    Spacer(modifier = Modifier.height(8.dp))
 }
