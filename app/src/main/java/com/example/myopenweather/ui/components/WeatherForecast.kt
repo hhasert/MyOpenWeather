@@ -2,6 +2,7 @@ package com.example.myopenweather.ui.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,8 +19,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.myopenweather.R
 import com.example.myopenweather.model.ForecastData
 import com.example.myopenweather.model.OpenWeatherForecast
 import com.example.myopenweather.ui.common.WeatherIcon
@@ -72,7 +77,7 @@ fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone 
             openWeatherForecast[index].weatherCondition[0].icon,
             modifier = Modifier.size(64.dp, 64.dp)
         )
-        Temperature (openWeatherForecast[index].weather.temperature)
+        ForecastTemperature (openWeatherForecast[index].weather.temperature, openWeatherForecast[index].weather.temperatureFeelsLike)
         RainOrSnow(
             openWeatherForecast[index].precipitationProbability,
             openWeatherForecast[index].rain?.threeHour ?: 0.0,
@@ -106,13 +111,29 @@ fun DateTime (epoch : Long, timezone: Long )
 }
 
 @Composable
-fun Temperature( temperature : Double)
+fun ForecastTemperature( temperature : Double, realFeel: Double)
 {
     Text(
     textAlign = TextAlign.Center,
+    style = MaterialTheme.typography.labelMedium,
     text = "" + round(temperature * 10) / 10 + " \u2103",
     modifier = Modifier.fillMaxWidth()
 )
+    Spacer(modifier = Modifier.height(2.dp))
+    Row( horizontalArrangement = Arrangement.Center,  modifier = Modifier.fillMaxWidth() .padding(start = 2.dp) )
+    {
+        Image(
+            modifier = Modifier.size(12.dp),
+            painter = painterResource(R.drawable.baseline_back_hand_24),
+            contentDescription = stringResource(R.string.loading)
+        )
+      Text(
+        textAlign = TextAlign.Center,
+        fontSize = 12.sp,
+        text = " " + round(realFeel * 10) / 10 + " \u2103 ",
+      )
+
+}
     Spacer(modifier = Modifier.height(8.dp))
     HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.inversePrimary)
     Spacer(modifier = Modifier.height(8.dp))

@@ -2,6 +2,7 @@ package com.example.myopenweather.ui.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,8 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.myopenweather.R
 import com.example.myopenweather.model.OpenWeatherCurrent
 import com.example.myopenweather.ui.common.WeatherIcon
 import com.example.myopenweather.ui.common.WindIcon
@@ -29,7 +33,6 @@ import kotlin.math.round
 @Composable
 fun WeatherInfo (
     openWeatherCurrent: OpenWeatherCurrent,
-    modifier: Modifier
 )
 {
     Card(
@@ -105,22 +108,30 @@ fun WeatherClouds(
 @Composable
 fun WindSpeedandDirection ( speed: Double, direction : Int )
 {
-    Row () {
-        Text(textAlign = TextAlign.Start, text = "Wind: " + round(speed * 10) / 10 + " m/s  ")
-        WindIcon(direction.toFloat(), Modifier.size(14.dp))
-    }
+    Row {
+          Text(textAlign = TextAlign.Start, text = "Wind: " + round(speed * 10) / 10 + " m/s  ")
+          WindIcon(direction.toFloat(), Modifier.size(14.dp))
+        }
 }
 @Composable
 fun Temperature (temperature : Double, realFeel: Double) {
-    Column {
+    Column (horizontalAlignment = Alignment.CenterHorizontally)
+    {
         Text(
             style = MaterialTheme.typography.displayLarge,
             text = "" + round(temperature * 10)/10 + " \u2103"
         )
         Spacer(modifier = Modifier.padding(2.dp))
-        Text(
-        style = MaterialTheme.typography.bodySmall,
-        text = "Feels like : " + round(realFeel * 10)/10 + " \u2103"
-    )
-  }
+        Row()
+        {
+            Image(
+                modifier = Modifier.size(18.dp),
+                painter = painterResource(R.drawable.baseline_back_hand_24),
+                contentDescription = stringResource(R.string.loading)
+            )
+          Text(
+          style = MaterialTheme.typography.bodyMedium,
+          text = " " + round(realFeel * 10)/10 + " \u2103")
+        }
+     }
 }
