@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -41,8 +40,7 @@ import kotlin.math.roundToInt
 fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifier)
 {
     Card(
-          shape = MaterialTheme.shapes.medium,
-          elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier.height (420.dp)
     ) {
         LazyRow(
@@ -63,8 +61,8 @@ fun WeatherForecast (openWeatherForecast: OpenWeatherForecast, modifier: Modifie
 fun ForecastItem(index : Int, openWeatherForecast: List<ForecastData>, timezone : Long)
 {
     Card (
-          shape = MaterialTheme.shapes.medium,
-          modifier = Modifier.fillMaxWidth()
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier.fillMaxWidth()
                     .width(80.dp)
     ){
         Spacer(modifier = Modifier.height(8.dp))
