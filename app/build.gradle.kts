@@ -93,6 +93,10 @@ dependencies {
     //Google Permissions
     implementation (libs.accompanist.permissions)
     testImplementation(libs.junit)
+    //Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
