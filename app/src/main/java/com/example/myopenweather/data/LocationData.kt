@@ -1,15 +1,16 @@
 package com.example.myopenweather.data
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "places")
+@Entity(tableName = "locations")
 data class LocationData (
-    var id: Int = 1,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     var name: String = "",
     var latitude: String = "",
     var longitude: String = ""
 )
-
 val locationsData = mutableListOf(
         LocationData
         (
