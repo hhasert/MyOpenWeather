@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinserialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -96,7 +97,7 @@ dependencies {
 
     //Room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.kotlinx.coroutines.test)
