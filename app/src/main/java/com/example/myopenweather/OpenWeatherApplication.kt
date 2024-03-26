@@ -26,7 +26,7 @@ class OpenWeatherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer()
+        container = DefaultAppContainer(this)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 }

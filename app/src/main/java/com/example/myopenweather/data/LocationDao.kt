@@ -9,7 +9,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface LocationsDao {
+interface LocationDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(location: LocationData)
 

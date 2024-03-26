@@ -1,5 +1,6 @@
 package com.example.myopenweather.data
 
+import android.content.Context
 import com.example.myopenweather.network.OpenWeatherApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -11,6 +12,7 @@ import retrofit2.Retrofit
  */
 interface AppContainer {
     val openWeatherRepository: OpenWeatherRepository
+    val locationsRepository: LocationsRepository
 }
 
 /**
@@ -18,7 +20,8 @@ interface AppContainer {
  *
  * Variables are initialized lazily and the same instance is shared across the whole app.
  */
-class DefaultAppContainer : AppContainer {
+class DefaultAppContainer (private val context: Context): AppContainer
+{
     private val baseUrl = "https://api.openweathermap.org/"
 
     /**
@@ -41,5 +44,8 @@ class DefaultAppContainer : AppContainer {
      */
     override val openWeatherRepository: OpenWeatherRepository by lazy {
         NetworkOpenWeatherRepository(retrofitService)
+    }
+    override val locationsRepository: LocationsRepository by lazy {
+        OfflineItemsRepository(LocationsDatabase.getDatabase(context).locationDao())
     }
 }
