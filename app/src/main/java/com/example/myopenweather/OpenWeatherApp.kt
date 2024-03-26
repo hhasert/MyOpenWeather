@@ -80,7 +80,6 @@ fun OpenWeatherTopAppBar(
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun OpenWeatherApp( navController: NavHostController = rememberNavController()
 ) {
