@@ -1,6 +1,7 @@
 package com.example.myopenweather.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -20,10 +21,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -36,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myopenweather.R
+import com.example.myopenweather.ui.navigation.OpenWeatherNavHost
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen
@@ -57,7 +61,7 @@ fun OpenWeatherTopAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     navigateMenu: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     modifier: Modifier = Modifier)
 {
     CenterAlignedTopAppBar(
@@ -92,6 +96,7 @@ fun OpenWeatherTopAppBar(
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun OpenWeatherApp( navController: NavHostController = rememberNavController()
 ) {
@@ -104,80 +109,16 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
     )
     val openWeatherViewModel: OpenWeatherViewModel =
         viewModel(factory = OpenWeatherViewModel.Factory)
-    val uiState by openWeatherViewModel.uiState.collectAsState()
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { OpenWeatherTopAppBar(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = { OpenWeatherTopAppBar(
             currentScreen = currentScreen,
      //       canNavigateBack = navController.previousBackStackEntry != null,
             canNavigateBack = false,
             navigateUp = { navController.navigateUp() },
             navigateMenu = {navController.navigate(MyOpenWeatherScreen.Location.name)},
             scrollBehavior = scrollBehavior) }
-    ) { innerPadding ->
-        // Check to see if location permissions were granted, if not tell NavHost to start with
-        // [LocationPermissionScreen] to set them correctly
-        val startDestination = if (areLocationPermissionsGranted()) {
-            MyOpenWeatherScreen.Weather.name
-        }
-        else MyOpenWeatherScreen.RequestPermissions.name
-        NavHost(
-            navController = navController,
-            startDestination = startDestination,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-
-            composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
-                LocationPermissionScreen { openWeatherViewModel.initCurrentLocation()
-                                           navController.navigate(MyOpenWeatherScreen.Weather.name) }
-            }
-
-            composable(route = MyOpenWeatherScreen.Location.name) {
-                LocationScreen(
-                    geoLocationByCoordsUiState = openWeatherViewModel.geoLocationByCoordsUiState,
-                    uiState.locations,
-                    retryAction = { /*TODO Should call the viewmodel to get location again*/},
-                    onNextButtonClicked =  {
-                                            uiState.currentLocation.latitude = it.latitude
-                                            uiState.currentLocation.longitude = it.longitude
-                                            openWeatherViewModel.getOpenWeatherCurrent(
-                                                latitude = uiState.currentLocation.latitude,
-                                                longitude = uiState.currentLocation.longitude,
-                                                units = "metric",
-                                                language = "en")
-                                            openWeatherViewModel.getOpenWeatherForecast(
-                                                latitude = uiState.currentLocation.latitude,
-                                                longitude = uiState.currentLocation.longitude,
-                                                units = "metric",
-                                                language = "en")
-                                            navController.navigate(MyOpenWeatherScreen.Weather.name)
-                                            },
-                        modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium))
-                )
-            }
-            composable(route = MyOpenWeatherScreen.Weather.name) {
-                WeatherScreen(
-                    openWeatherCurrentUiState = openWeatherViewModel.openWeatherCurrentUiState,
-                    openWeatherForecastUiState = openWeatherViewModel.openWeatherForecastUiState,
-                    retryAction = { /*TODO*/ },
-                    onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Weather.name) },
-                    modifier = Modifier.fillMaxHeight()
-                )
-            }
-        }
+    ) {
+        OpenWeatherNavHost(navController, openWeatherViewModel)
     }
-}
-@Composable
-private fun areLocationPermissionsGranted(): Boolean {
-    val context = LocalContext.current
-    return (ActivityCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                context, Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED)
 }
