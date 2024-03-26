@@ -18,7 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myopenweather.R
-import com.example.myopenweather.ui.MyOpenWeatherScreen
+import com.example.myopenweather.MyOpenWeatherScreen
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen

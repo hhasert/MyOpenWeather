@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.myopenweather.ui.OpenWeatherApp
 import com.example.myopenweather.ui.theme.MyOpenWeatherTheme
 
 class MainActivity : ComponentActivity() {
