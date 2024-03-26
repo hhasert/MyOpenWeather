@@ -40,7 +40,7 @@ fun WeatherScreen(
                 is OpenWeatherForecastUiState.Success -> CurrentWeatherScreen(
                     openWeatherCurrentUiState.openWeatherCurrent,
                     openWeatherForecastUiState.openWeatherForecast,
-                    modifier = modifier.fillMaxWidth()
+                    modifier = Modifier
                 )
                 is OpenWeatherForecastUiState.Error -> ErrorScreen(
                     retryAction,

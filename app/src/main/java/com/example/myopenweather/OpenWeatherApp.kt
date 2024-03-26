@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -102,6 +103,6 @@ fun OpenWeatherApp( navController: NavHostController = rememberNavController()
             navigateMenu = {navController.navigate(MyOpenWeatherScreen.Location.name)},
             scrollBehavior = scrollBehavior) }
     ) {
-        OpenWeatherNavHost(navController, openWeatherViewModel)
+        OpenWeatherNavHost(navController, openWeatherViewModel, Modifier.padding(it))
     }
 }

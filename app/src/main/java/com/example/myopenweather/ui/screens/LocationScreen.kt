@@ -24,7 +24,7 @@ fun LocationScreen(
         is GeoLocationByCoordsUiState.Success -> LocationsScreen(
             locations,
             onNextButtonClicked,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier
         )
         is GeoLocationByCoordsUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }

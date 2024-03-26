@@ -40,7 +40,7 @@ fun OpenWeatherNavHost(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier.fillMaxHeight()
     ) {
         composable(route = MyOpenWeatherScreen.RequestPermissions.name) {
             LocationPermissionScreen { openWeatherViewModel.initCurrentLocation()
