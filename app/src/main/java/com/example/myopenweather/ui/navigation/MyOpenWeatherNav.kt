@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,12 +19,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myopenweather.R
-import com.example.myopenweather.MyOpenWeatherScreen
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen
 import com.example.myopenweather.ui.viewmodel.OpenWeatherViewModel
-
+enum class MyOpenWeatherScreen(@StringRes val title: Int) {
+    RequestPermissions(title = R.string.requestpermissions),
+    Location(title = R.string.app_name),
+    AddLocation(title = R.string.AddLocation),
+    Weather(title = R.string.weather),
+}
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun OpenWeatherNavHost(
@@ -67,6 +72,7 @@ fun OpenWeatherNavHost(
                         language = "en")
                     navController.navigate(MyOpenWeatherScreen.Weather.name)
                 },
+                onAddButtonClicked = {/*TODO add naviation to add location page*/},
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(dimensionResource(R.dimen.padding_medium))

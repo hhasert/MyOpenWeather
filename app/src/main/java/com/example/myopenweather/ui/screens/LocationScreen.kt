@@ -2,8 +2,17 @@ package com.example.myopenweather.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import com.example.myopenweather.R
 import com.example.myopenweather.data.LocationData
 import com.example.myopenweather.ui.common.ErrorScreen
 import com.example.myopenweather.ui.common.LoadingScreen
@@ -17,6 +26,7 @@ fun LocationScreen(
     locations : List <LocationData>,
     retryAction: () -> Unit,
     onNextButtonClicked: (location : LocationData) -> Unit,
+    onAddButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (geoLocationByCoordsUiState) {
@@ -24,6 +34,7 @@ fun LocationScreen(
         is GeoLocationByCoordsUiState.Success -> LocationsScreen(
             locations,
             onNextButtonClicked,
+            onAddButtonClicked,
             modifier = Modifier
         )
         is GeoLocationByCoordsUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
@@ -33,7 +44,18 @@ fun LocationScreen(
     fun LocationsScreen(
         locations : List <LocationData>,
         onNextButtonClicked: (location: LocationData) -> Unit,
+        onAddButtonClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         LocationsList( locations , onNextButtonClicked, modifier,)
+        FloatingActionButton(
+                onClick = onAddButtonClicked,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.AddLocation)
+                )
+            }
     }

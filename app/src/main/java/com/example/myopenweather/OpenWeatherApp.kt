@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.myopenweather.ui.navigation.MyOpenWeatherScreen
 import com.example.myopenweather.ui.navigation.OpenWeatherNavHost
 import com.example.myopenweather.ui.viewmodel.OpenWeatherViewModel
 
@@ -33,11 +34,7 @@ import com.example.myopenweather.ui.viewmodel.OpenWeatherViewModel
 /**
  * enum values that represent the screens in the app
  */
-enum class MyOpenWeatherScreen(@StringRes val title: Int) {
-    RequestPermissions(title = R.string.requestpermissions),
-    Location(title = R.string.app_name),
-    Weather(title = R.string.weather),
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenWeatherTopAppBar(
