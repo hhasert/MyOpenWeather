@@ -51,7 +51,7 @@ sealed interface OpenWeatherForecastUiState {
     data object Loading : OpenWeatherForecastUiState
 }
 
-data class LocationUiState (
+data class LocationsUiState (
     var currentLocation: LocationData,
     var locations : MutableList <LocationData>
 )
@@ -72,8 +72,8 @@ class OpenWeatherViewModel(private val openWeatherRepository: OpenWeatherReposit
     )
         private set
 
-    private val _uiState = MutableStateFlow(LocationUiState(currentLocation = setDummyLocation() , locations = locationsData) )
-    val uiState: StateFlow<LocationUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(LocationsUiState(currentLocation = setDummyLocation() , locations = locationsData) )
+    val uiState: StateFlow<LocationsUiState> = _uiState.asStateFlow()
 
     // Go to https://openweathermap.org/api , create an account and get an API Key
     private val apiKey = BuildConfig.API_KEY

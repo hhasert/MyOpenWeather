@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myopenweather.R
+import com.example.myopenweather.ui.screens.LocationAddScreen
 import com.example.myopenweather.ui.screens.LocationPermissionScreen
 import com.example.myopenweather.ui.screens.LocationScreen
 import com.example.myopenweather.ui.screens.WeatherScreen
@@ -72,7 +73,7 @@ fun OpenWeatherNavHost(
                         language = "en")
                     navController.navigate(MyOpenWeatherScreen.Weather.name)
                 },
-                onAddButtonClicked = {/*TODO add naviation to add location page*/},
+                onAddButtonClicked = {navController.navigate(MyOpenWeatherScreen.AddLocation.name)},
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(dimensionResource(R.dimen.padding_medium))
@@ -85,6 +86,10 @@ fun OpenWeatherNavHost(
                 retryAction = { /*TODO*/ },
                 onNextButtonClicked = { navController.navigate(MyOpenWeatherScreen.Weather.name) },
                 modifier = Modifier.fillMaxHeight()
+            )
+        }
+        composable(route = MyOpenWeatherScreen.AddLocation.name) {
+            LocationAddScreen ( navigateBack = {navController.navigate(MyOpenWeatherScreen.Location.name) },
             )
         }
     }
