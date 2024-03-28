@@ -1,7 +1,6 @@
 package com.example.myopenweather.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -47,7 +46,7 @@ fun LocationScreen(
         onAddButtonClicked: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        LocationsList( locations , onNextButtonClicked, modifier,)
+        LocationsList( locations , onNextButtonClicked, modifier)
         FloatingActionButton(
                 onClick = onAddButtonClicked,
                 shape = MaterialTheme.shapes.medium,
