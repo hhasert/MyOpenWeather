@@ -15,21 +15,32 @@ class LocationEntryViewModel(private val locationsRepository: LocationsRepositor
     /**
      * Holds current item ui state
      */
-    var locationUiState by mutableStateOf(LocationUiState())
+    var locationNameUiState by mutableStateOf(LocationNameUiState())
         private set
-
+    var locationListUiState by mutableStateOf(LocationListUiState())
+        private set
     /**
      * Updates the [locationUiState] with the value provided in the argument.
      */
-
+    fun updateUiState(location: LocationName) {
+        locationNameUiState =
+            LocationNameUiState(location = location)
+    }
     suspend fun saveItem() {
-            locationsRepository.insertLocation(locationUiState.location)
+            //locationsRepository.insertLocation(locationListUiState)
     }
 }
 
 /**
  * Represents Ui State for an Item.
  */
-data class LocationUiState(
-    val location : LocationData = LocationData()
+data class LocationNameUiState(
+    var location : LocationName = LocationName()
+)
+
+data class LocationName (
+    var name : String = ""
+)
+data class LocationListUiState(
+    var locationList : List <LocationData> = emptyList()
 )

@@ -1,9 +1,7 @@
 package com.example.myopenweather
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -39,11 +37,12 @@ import com.example.myopenweather.ui.viewmodel.OpenWeatherViewModel
 @Composable
 fun OpenWeatherTopAppBar(
     currentScreen: MyOpenWeatherScreen,
+    modifier: Modifier = Modifier,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     navigateMenu: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    modifier: Modifier = Modifier)
+   )
 {
     CenterAlignedTopAppBar(
         scrollBehavior = scrollBehavior,

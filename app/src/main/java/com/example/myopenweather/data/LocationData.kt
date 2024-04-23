@@ -33,5 +33,10 @@ val locationsData = mutableListOf(
                 latitude = "37.214665",
                 longitude = "-7.229323"
     ),
+       LocationData(
+                name = "Faro Airport",
+                latitude = "37.017842",
+                longitude = "-7.972626"
+    ),
 )
 

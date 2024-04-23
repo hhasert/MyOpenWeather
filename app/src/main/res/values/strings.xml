@@ -11,4 +11,6 @@
     <string name="back_button">Back</string>
     <string name="next">Next</string>
     <string name="finished">Finished</string>
+    <string name="save_action">Save</string>
+    <string name="location_name_req">Location Name</string>
 </resources>
